@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uz.ishborApp" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +19,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".VacancyCategoryActivity"
+            android:label="@string/title_activity_vacancy_category"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".VacancyActivity"
+            android:label="@string/title_activity_vacancy"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

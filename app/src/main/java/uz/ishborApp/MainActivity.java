@@ -14,17 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseDrawerActivity{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        ButterKnife.bind(this);
+        super.onCreateDrawer();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,14 +35,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer= (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView= (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,14 +45,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else
-        super.onBackPressed();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,13 +61,4 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }

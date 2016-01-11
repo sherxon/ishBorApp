@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single" android:id="@+id/one">
-        <item android:id="@+id/nav_search_vacancy" android:icon="@android:drawable/ic_search_category_default"
-            android:title="Поиск Вакансий" />
+        <item android:id="@+id/nav_search_vacancy"
+            android:icon="@android:drawable/ic_search_category_default"
+            android:title="Поиск Вакансий"
+            android:checked="true"
+            />
         <item android:id="@+id/nav_category" android:icon="@android:drawable/ic_dialog_dialer"
             android:title="Категорий" />
         <item android:id="@+id/nav_news" android:icon="@android:drawable/ic_menu_manage"
