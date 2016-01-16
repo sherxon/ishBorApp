@@ -1,7 +1,6 @@
 package uz.ishborApp;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+
 
 /**
  * Created by sherxon on 1/5/16.
@@ -21,6 +20,8 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+
 
     protected void onCreateDrawer() {
 

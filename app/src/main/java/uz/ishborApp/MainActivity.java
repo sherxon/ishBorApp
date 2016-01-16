@@ -1,21 +1,19 @@
 package uz.ishborApp;
 
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import butterknife.Bind;
+import java.util.Date;
+
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
+import uz.ishborApp.Entity.DaoMaster;
+import uz.ishborApp.Entity.Search;
+import uz.ishborApp.Entity.SearchDao;
 
 public class MainActivity extends BaseDrawerActivity{
 
@@ -30,11 +28,10 @@ public class MainActivity extends BaseDrawerActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "salom", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
     }
 
 
@@ -54,9 +51,10 @@ public class MainActivity extends BaseDrawerActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
 
         return super.onOptionsItemSelected(item);
     }

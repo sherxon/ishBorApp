@@ -32,7 +32,7 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
         Vacancy vacancy=vacancyList.get(position);
         holder.position.setText(vacancy.getPosition());
         holder.comapnyName.setText(String.valueOf(vacancy.getCompanyName()));
-        holder.date.setText(String.valueOf(vacancy.getDate()));
+        holder.date.setText(String.valueOf(vacancy.getStDate()));
     }
 
     @Override

@@ -51,8 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @Override
         public void onClick(View view) {
-            int pos=getLayoutPosition();
-            EventBus.getDefault().post(categoryList.get(pos));
+            EventBus.getDefault().post(categoryList.get(getLayoutPosition()));
         }
     }
 }

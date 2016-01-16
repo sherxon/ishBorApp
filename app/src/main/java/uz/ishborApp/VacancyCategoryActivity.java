@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.Components.Globals;
-import uz.ishborApp.DAO.CategoryDao;
+import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.Category;
-import uz.ishborApp.Entity.Vacancy;
 
 public class VacancyCategoryActivity extends BaseDrawerActivity {
 
@@ -34,8 +33,7 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
-
-        new CategoryDao().execute(Globals.LOCAL_CATEGORY_URL);
+        new DbBalance(this).checkCategoryUpdate();
 
     }
 
@@ -46,12 +44,12 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(List<Category> categoryList){ //on download
+    public void onEventMainThread(ArrayList categoryList){ //on download
         if(categoryList==null  || !(categoryList.get(0) instanceof Category))return;
         CategoryAdapter categoryAdapter=new CategoryAdapter(categoryList);
         recList.setAdapter(categoryAdapter);
