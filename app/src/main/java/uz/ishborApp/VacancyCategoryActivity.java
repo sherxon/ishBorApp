@@ -1,5 +1,6 @@
 package uz.ishborApp;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
     @Inject
     OkHttpClient okHttpClient;
 
-    @Inject DaoMaster daoMaster;
+    @Inject
+    DaoMaster daoMaster;
+
     @Inject
     SQLiteOpenHelper sqLiteOpenHelper;
 
@@ -41,9 +44,7 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         ButterKnife.bind(this);
         super.onCreateDrawer();
 
-        AppComponent appComponent=DaggerAppComponent.builder().dbModule(new DbModule()).build();
-        appComponent.inject(this);
-
+        MyApplication.get(this).getAppComponent().inject(this);
 
         recList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);

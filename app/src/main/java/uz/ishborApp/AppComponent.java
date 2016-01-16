@@ -1,9 +1,9 @@
 package uz.ishborApp;
 
 import android.app.Activity;
+import android.app.Application;
 
 import dagger.Component;
-import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.Modules.DbModule;
 
 /**
@@ -16,4 +16,5 @@ import uz.ishborApp.Modules.DbModule;
 )
 public interface AppComponent {
     void inject(Activity currentActivity);
+    void inject(Application application);
 }

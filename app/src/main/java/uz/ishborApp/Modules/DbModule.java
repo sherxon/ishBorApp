@@ -18,25 +18,17 @@ import uz.ishborApp.Entity.DaoMaster;
 @Module
 public class DbModule {
 
-   private SQLiteOpenHelper db ;
-   private DaoMaster daoMaster;
-
     @Provides @Singleton
     DaoMaster provideDaoMaster(SQLiteOpenHelper db){
-        return daoMaster= new DaoMaster(db.getWritableDatabase());
+       return new DaoMaster(db.getWritableDatabase());
     }
 
     @Provides @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
-        return db =new DaoMaster.DevOpenHelper(context, "test-db", null);
+        return new DaoMaster.DevOpenHelper(context, "test-db", null);
     }
     @Provides @Singleton
     OkHttpClient provideHttpClient(){
         return new OkHttpClient();
     }
-//    @Provides @Singleton
-//    DbBalance provideDbBalance(){
-//        return new DbBalance();
-//    }
-
 }
