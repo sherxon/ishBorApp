@@ -39,7 +39,7 @@ public class DbBalance {
     }
 
 
-    private void loadCategoryToLocalDb(){
+    public void loadCategoryToLocalDb(){
         new AsyncTask<String,Integer, String>(){
             @Override
             protected String doInBackground(String... urls) {
@@ -53,6 +53,7 @@ public class DbBalance {
                         e.printStackTrace();
                     }
                 }
+
                 return result;
             }
 

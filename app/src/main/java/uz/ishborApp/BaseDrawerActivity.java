@@ -15,16 +15,12 @@ import butterknife.Bind;
 /**
  * Created by sherxon on 1/5/16.
  */
-public class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public abstract class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-
-
     protected void onCreateDrawer() {
-
         setSupportActionBar(toolbar);
         DrawerLayout drawer= (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(

@@ -34,7 +34,6 @@ public class VacancyActivity extends BaseDrawerActivity {
 
         long categoryId= getIntent().getExtras().getLong("id");
         new DbBalance(this).checkVacancyUpdate(categoryId);
-        /*new VacancyDao().execute(Globals.LOCAL_VACANCY_URL + "?categoryId=" + categoryId);*/
     }
 
     @Override
