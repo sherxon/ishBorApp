@@ -1,34 +1,45 @@
 package uz.ishborApp.Modules;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.DaoMaster;
+import uz.ishborApp.MyApplication;
 
 /**
- * Created by sherxon on 1/16/16.
+ * Created by sherxon on 1/17/16.
  */
 @Module
 public class DbModule {
+    private final MyApplication myApplication;
 
-    @Provides @Singleton
+    public DbModule(MyApplication myApplication) {
+        this.myApplication = myApplication;
+    }
+
+    @Provides
+    @Singleton
     DaoMaster provideDaoMaster(SQLiteOpenHelper db){
-       return new DaoMaster(db.getWritableDatabase());
+        return new DaoMaster(db.getWritableDatabase());
+    }
+    @Provides
+    Context provideContext(){
+        return myApplication.getApplicationContext();
+    }
+
+    @Provides
+    MyApplication provideMyApplication(){
+        return myApplication;
     }
 
     @Provides @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
+        MyApplication myApplication=null;
         return new DaoMaster.DevOpenHelper(context, "test-db", null);
-    }
-    @Provides @Singleton
-    OkHttpClient provideHttpClient(){
-        return new OkHttpClient();
     }
 }

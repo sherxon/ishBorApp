@@ -1,6 +1,7 @@
 package uz.ishborApp;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,7 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.squareup.okhttp.OkHttpClient;
+
+import javax.inject.Inject;
+
 import butterknife.Bind;
+import uz.ishborApp.DAO.DbBalance;
+import uz.ishborApp.Entity.DaoMaster;
+
 
 
 /**
@@ -20,6 +28,13 @@ public abstract class BaseDrawerActivity extends AppCompatActivity implements Na
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Inject
+    DaoMaster daoMaster;
+
+    @Inject
+    DbBalance dbBalance;
+
+
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
         DrawerLayout drawer= (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -29,6 +44,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity implements Na
         toggle.syncState();
         NavigationView navigationView= (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        MyApplication.get(this).getAppComponent().inject(this);
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import uz.ishborApp.Modules.DbModule;
+import uz.ishborApp.Modules.UtilModule;
 
 /**
  * Created by sherxon on 1/16/16.
@@ -13,7 +14,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-         appComponent=DaggerAppComponent.builder().dbModule(new DbModule()).build();
+        appComponent=DaggerAppComponent.builder().utilModule(new UtilModule()).dbModule(new DbModule(this)).build();
         appComponent.inject(this);
     }
 

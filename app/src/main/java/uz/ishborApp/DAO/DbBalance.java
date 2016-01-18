@@ -15,6 +15,9 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Category;
@@ -26,16 +29,20 @@ import uz.ishborApp.Entity.VacancyDao;
 /**
  * Created by sherxon on 1/15/16.
  */
+@Singleton
 public class DbBalance {
+
    private Context context;
 
+    @Inject
     SQLiteOpenHelper db ;
+
+    @Inject
     DaoMaster daoMaster;
 
+    @Inject
     public DbBalance(Context context) {
         this.context = context;
-         db = new DaoMaster.DevOpenHelper(context, "test-db", null);
-         daoMaster= new DaoMaster(db.getWritableDatabase());
     }
 
 

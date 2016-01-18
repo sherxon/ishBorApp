@@ -1,15 +1,12 @@
 package uz.ishborApp;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.squareup.okhttp.OkHttpClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,9 +16,6 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.Category;
-import uz.ishborApp.Entity.CategoryDao;
-import uz.ishborApp.Entity.DaoMaster;
-import uz.ishborApp.Modules.DbModule;
 
 public class VacancyCategoryActivity extends BaseDrawerActivity {
 
@@ -31,11 +25,6 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
     @Inject
     OkHttpClient okHttpClient;
 
-    @Inject
-    DaoMaster daoMaster;
-
-    @Inject
-    SQLiteOpenHelper sqLiteOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +33,22 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         ButterKnife.bind(this);
         super.onCreateDrawer();
 
-        MyApplication.get(this).getAppComponent().inject(this);
-
         recList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
-        //new DbBalance(this).checkCategoryUpdate();
+
         getListOfCategoryAndRenderView();
 
     }
 
     private void getListOfCategoryAndRenderView() {
-        CategoryDao.createTable(daoMaster.getDatabase(), true);
-        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
-        if(categoryDao.count()==0)new DbBalance(this).loadCategoryToLocalDb();
-        else{
-            onEventMainThread(categoryDao.loadAll());
-        }
+//        CategoryDao.createTable(daoMaster.getDatabase(), true);
+//        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
+//        if(categoryDao.count()==0)new DbBalance(this).loadCategoryToLocalDb();
+//        else{
+//            onEventMainThread(categoryDao.loadAll());
+//        }
 
     }
 
