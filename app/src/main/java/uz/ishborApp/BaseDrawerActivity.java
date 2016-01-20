@@ -1,5 +1,6 @@
 package uz.ishborApp;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import com.squareup.okhttp.OkHttpClient;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import uz.ishborApp.Components.Globals;
 import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.DaoMaster;
 
@@ -23,7 +25,7 @@ import uz.ishborApp.Entity.DaoMaster;
 /**
  * Created by sherxon on 1/5/16.
  */
-public abstract class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public  class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -53,8 +55,13 @@ public abstract class BaseDrawerActivity extends AppCompatActivity implements Na
         DrawerLayout drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else
-            super.onBackPressed();
+        }else {
+//            Fragment fragment=getFragmentManager().findFragmentByTag(Globals.FRAGMENT_TAG);
+//            if(fragment.isVisible()){
+//                getFragmentManager().beginTransaction().remove(fragment).commit();
+//            }else
+                super.onBackPressed();
+        }
     }
 
     @Override

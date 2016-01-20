@@ -1,5 +1,6 @@
 package uz.ishborApp.Modules;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
@@ -18,5 +19,11 @@ public class UtilModule {
     @Singleton
     OkHttpClient provideHttpClient(){
         return new OkHttpClient();
+    }
+
+    @Provides
+    @Singleton
+    Gson gson(){
+        return new Gson();
     }
 }

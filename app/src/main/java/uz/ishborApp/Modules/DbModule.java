@@ -39,7 +39,6 @@ public class DbModule {
 
     @Provides @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
-        MyApplication myApplication=null;
         return new DaoMaster.DevOpenHelper(context, "test-db", null);
     }
 }

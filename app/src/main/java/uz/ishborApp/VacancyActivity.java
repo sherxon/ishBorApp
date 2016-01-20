@@ -1,22 +1,25 @@
 package uz.ishborApp;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.DAO.DbBalance;
+import uz.ishborApp.Components.Globals;
+import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.Vacancy;
+import uz.ishborApp.Entity.VacancyDao;
+import uz.ishborApp.Fragments.VacancyDesc;
+import uz.ishborApp.Fragments.VacancyList;
 
-public class VacancyActivity extends BaseDrawerActivity {
+public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener, VacancyList.OnFragmentInteractionListener {
 
-    @Bind(R.id.cardListVacancy)
-    RecyclerView recList;
-
+    //@Bind(R.id.cardListVacancy) RecyclerView recList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +30,34 @@ public class VacancyActivity extends BaseDrawerActivity {
 
         super.onCreateDrawer();
 
-        recList.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(linearLayoutManager);
+//        recList.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recList.setLayoutManager(linearLayoutManager);
 
         long categoryId= getIntent().getExtras().getLong("id");
-        new DbBalance(this).checkVacancyUpdate(categoryId);
+        loadCategoryList(categoryId);
+    }
+
+
+    private void loadCategoryList(Long categoryId) {
+        VacancyDao.createTable(daoMaster.getDatabase(), true);
+        Category category=daoMaster.newSession().getCategoryDao().load(categoryId);
+        List<Vacancy> vacancyList=category.getVacancyList();
+        if(vacancyList.size()==0)
+            dbBalance.loadVacancyToLocalDb(categoryId);
+        else
+            startListFragment(vacancyList);
+    }
+
+    private void startListFragment(List<Vacancy> vacancyList) {
+        Fragment fragment=new VacancyList();
+        FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG);
+        transaction.commit();
+
+        EventBus.getDefault().post(vacancyList);
     }
 
     @Override
@@ -48,10 +72,22 @@ public class VacancyActivity extends BaseDrawerActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(List<Vacancy> vacancyList){
-        if(vacancyList==null  || !(vacancyList.get(0) instanceof Vacancy))return;
-        VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList);
-        recList.setAdapter(vacancyAdapter);
+    public void onEventMainThread(Vacancy vacancy){
+        Fragment fragment=new VacancyDesc();
+        FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG);
+        transaction.commit();
     }
 
+
+    @Override
+    public void onVacancyDescFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onVacancyListFragmentInteraction() {
+
+    }
 }

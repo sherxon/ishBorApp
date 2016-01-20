@@ -32,18 +32,20 @@ import uz.ishborApp.Entity.VacancyDao;
 @Singleton
 public class DbBalance {
 
-   private Context context;
+    @Inject
+    SQLiteOpenHelper db;
 
     @Inject
-    SQLiteOpenHelper db ;
+    OkHttpClient okHttpClient;
+
+    @Inject
+    Gson gson;
 
     @Inject
     DaoMaster daoMaster;
 
     @Inject
-    public DbBalance(Context context) {
-        this.context = context;
-    }
+    public DbBalance() {}
 
 
     public void loadCategoryToLocalDb(){
@@ -54,8 +56,9 @@ public class DbBalance {
                 for (int i = 0; i <urls.length; i++) {
                     Request request= new Request.Builder().url(urls[i]).build();
                     try {
-                        Response response = new OkHttpClient().newCall(request).execute();
+                        Response response = okHttpClient.newCall(request).execute();
                         result=response.body().string();
+                        return result;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -67,7 +70,7 @@ public class DbBalance {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Gson gson= new Gson();
+
                 Type categoryType=new TypeToken<List<Category>>(){}.getType();
 
                 List<Category> categoryList= Collections.emptyList();
@@ -93,7 +96,7 @@ public class DbBalance {
         else EventBus.getDefault().post(categoryDao.loadAll());
 
     }
-    private void loadVacancyToLocalDb(Long categoryId){
+    public void loadVacancyToLocalDb(Long categoryId){
         new AsyncTask<String,Integer, String>(){
             @Override
             protected String doInBackground(String... urls) {
@@ -101,8 +104,8 @@ public class DbBalance {
                 for (int i = 0; i <urls.length; i++) {
                     Request request= new Request.Builder().url(urls[i]).build();
                     try {
-                        Response response = new OkHttpClient().newCall(request).execute();
-                        result=response.body().string();
+                        Response response = okHttpClient.newCall(request).execute();
+                        return response.body().string();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -113,19 +116,20 @@ public class DbBalance {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Gson gson= new Gson();
-                Type categoryType=new TypeToken<List<Vacancy>>(){}.getType();
+                Type vacancyType=new TypeToken<List<Vacancy>>(){}.getType();
 
-                List<Vacancy> vacancyList= Collections.emptyList();
+                List<Vacancy> vacancyList= null;
                 try {
-                    vacancyList=gson.fromJson(s, categoryType);
+                    vacancyList=gson.fromJson(s, vacancyType);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                if(vacancyList==null)vacancyList=Collections.emptyList();
                 EventBus.getDefault().post(vacancyList);
                 VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
                 if(!vacancyList.isEmpty())
-                vacancyDao.deleteInTx(vacancyList.get(0).getCategory().getVacancyList());
+                vacancyDao.queryBuilder().where(VacancyDao.Properties.CategoryId.eq(vacancyList.get(0).getCategoryId()))
+                        .buildDelete().forCurrentThread();
                 vacancyDao.insertOrReplaceInTx(vacancyList);
 
             }

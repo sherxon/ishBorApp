@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.Category;
+import uz.ishborApp.Entity.CategoryDao;
 
 public class VacancyCategoryActivity extends BaseDrawerActivity {
 
@@ -37,18 +38,18 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
-
         getListOfCategoryAndRenderView();
 
     }
 
     private void getListOfCategoryAndRenderView() {
-//        CategoryDao.createTable(daoMaster.getDatabase(), true);
-//        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
-//        if(categoryDao.count()==0)new DbBalance(this).loadCategoryToLocalDb();
-//        else{
-//            onEventMainThread(categoryDao.loadAll());
-//        }
+        CategoryDao.createTable(daoMaster.getDatabase(), true);
+        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
+
+        if(categoryDao.count()==0)
+            dbBalance.loadCategoryToLocalDb();
+        else
+            onEventMainThread(categoryDao.loadAll());
 
     }
 

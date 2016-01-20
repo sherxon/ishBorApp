@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Vacancy;
 
 /**
@@ -24,7 +25,7 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
     @Override
     public VacancyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.vacancy_list_item, parent, false);
-        return new VacancyViewHolder(itemView);
+        return new VacancyViewHolder(itemView, vacancyList);
     }
 
     @Override
@@ -44,18 +45,19 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
         protected TextView position;
         protected TextView comapnyName;
         protected TextView date;
+        private List<Vacancy> vacancyList;
 
-        public VacancyViewHolder(View itemView) {
+        public VacancyViewHolder(View itemView,  List<Vacancy> vacancyList) {
             super(itemView);
             position= (TextView) itemView.findViewById(R.id.st_position);
             comapnyName= (TextView) itemView.findViewById(R.id.st_company);
             date= (TextView) itemView.findViewById(R.id.st_Date);
+            this.vacancyList=vacancyList;
             itemView.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View view) {
-               int pos=getLayoutPosition();
+                EventBus.getDefault().post(vacancyList.get(getLayoutPosition()));
         }
     }
 }
