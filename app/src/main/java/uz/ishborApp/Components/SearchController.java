@@ -20,6 +20,7 @@ import javax.inject.Singleton;
 
 import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.Entity.Search;
+import uz.ishborApp.Entity.SearchDao;
 
 /**
  * Created by sherxon on 1/21/16.
@@ -47,18 +48,19 @@ public class SearchController {
         return controller;
     }
 
+    public void setDaoMaster(DaoMaster daoMaster) {
+        this.daoMaster = daoMaster;
+    }
 
     public List<VacancySearchSuggestion> getSearchHistory(int count) {
         List<VacancySearchSuggestion> suggestionList= new ArrayList<>();
-                for (long i = 0; i < count; i++) {
-                    Search search=new Search(i, "Salom"+i, new Date());
-                        suggestionList.add(new VacancySearchSuggestion(search, true));
-                }
+        List<Search> searchList=daoMaster.newSession().getSearchDao()
+                .queryBuilder().orderDesc(SearchDao.Properties.Created)
+                .limit(4).build().list();
+        for (Search search : searchList) {
+            suggestionList.add(new VacancySearchSuggestion(search, true));
+        }
         return suggestionList;
-
-        //List<Search> searchList=daoMaster.newSession().getSearchDao().
-        //      queryBuilder().orderDesc(SearchDao.Properties.Created).
-//                        limit(4).build().list();
     }
 
 

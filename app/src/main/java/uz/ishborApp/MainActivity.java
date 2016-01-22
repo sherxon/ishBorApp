@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.path.android.jobqueue.JobManager;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import uz.ishborApp.Entity.CategoryDao;
 import uz.ishborApp.Entity.Search;
 import uz.ishborApp.Entity.SearchDao;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
+import uz.ishborApp.Events.SearchSuggestionItemSelected;
 import uz.ishborApp.Jobs.SearchJob;
 
 public class MainActivity extends BaseDrawerActivity {
@@ -66,6 +68,7 @@ public class MainActivity extends BaseDrawerActivity {
             @Override
             public void onFocus() {
                 List<VacancySearchSuggestion> suggestionList = searchController.getSearchHistory(4);
+                searchController.setDaoMaster(daoMaster);
                 mSearchView.swapSuggestions(suggestionList);
             }
 
@@ -74,6 +77,21 @@ public class MainActivity extends BaseDrawerActivity {
 
             }
         });
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+               Search search=((VacancySearchSuggestion) searchSuggestion).getSearch();
+                search.setCreated(new Date());
+                daoMaster.newSession().getSearchDao().insertOrReplace(search);
+                EventBus.getDefault().post(new SearchSuggestionItemSelected(search));
+            }
+
+            @Override
+            public void onSearchAction() {
+                System.out.println("onSearchAction()");
+            }
+        });
+
     }
     public void onEventMainThread(SearchSuggestionItemResultEvent event){
         mSearchView.swapSuggestions(event.getList());
