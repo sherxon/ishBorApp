@@ -5,6 +5,7 @@ package uz.ishborApp.Components;
  */
 public class Globals {
     public final static String LOCAL_CATEGORY_URL="http://192.168.0.110:8080/category/";
+    public final static String LOCAL_SEARCH_URL="http://192.168.0.110:8080/search";
     public final static String LOCAL_VACANCY_URL="http://192.168.0.110:8080/vacancy/list";
     public final static String FRAGMENT_TAG="FRAGMENT_TAG";
 }

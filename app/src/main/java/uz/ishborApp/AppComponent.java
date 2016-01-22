@@ -2,6 +2,7 @@ package uz.ishborApp;
 
 import android.app.Application;
 
+import com.path.android.jobqueue.JobManager;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
@@ -26,5 +27,7 @@ public interface AppComponent {
     OkHttpClient okHttpClient();
 
     void inject(BaseDrawerActivity currentActivity);
+    void inject(MainActivity mainActivity);
     void inject(MyApplication application);
+    void inject(JobManager jobManager);
 }

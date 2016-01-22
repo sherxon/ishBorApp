@@ -1,6 +1,7 @@
 package uz.ishborApp;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.design.widget.NavigationView;
@@ -56,10 +57,10 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
-//            Fragment fragment=getFragmentManager().findFragmentByTag(Globals.FRAGMENT_TAG);
-//            if(fragment.isVisible()){
-//                getFragmentManager().beginTransaction().remove(fragment).commit();
-//            }else
+            Fragment fragment=getFragmentManager().findFragmentByTag(Globals.FRAGMENT_TAG);
+            if(fragment!=null &&  fragment.isVisible()){
+                getFragmentManager().popBackStack("VACANCY_LIST_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }else
                 super.onBackPressed();
         }
     }

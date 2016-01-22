@@ -19,7 +19,6 @@ import uz.ishborApp.Fragments.VacancyList;
 
 public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener, VacancyList.OnFragmentInteractionListener {
 
-    //@Bind(R.id.cardListVacancy) RecyclerView recList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +28,6 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
         ButterKnife.bind(this);
 
         super.onCreateDrawer();
-
-//        recList.setHasFixedSize(true);
-//        LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        recList.setLayoutManager(linearLayoutManager);
 
         long categoryId= getIntent().getExtras().getLong("id");
         loadCategoryList(categoryId);
@@ -54,9 +48,8 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
         Fragment fragment=new VacancyList();
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
-        transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG);
+        transaction.replace(R.id.fJobDesc, fragment);
         transaction.commit();
-
         EventBus.getDefault().post(vacancyList);
     }
 
@@ -76,7 +69,7 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
         Fragment fragment=new VacancyDesc();
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
-        transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG);
+        transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG).addToBackStack("VACANCY_LIST_TAG");
         transaction.commit();
     }
 

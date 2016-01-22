@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.path.android.jobqueue.JobManager;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,5 +42,10 @@ public class DbModule {
     @Provides @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
         return new DaoMaster.DevOpenHelper(context, "test-db", null);
+    }
+
+    @Provides @Singleton
+    JobManager provideJobManager(MyApplication application){
+        return application.getJobManager();
     }
 }

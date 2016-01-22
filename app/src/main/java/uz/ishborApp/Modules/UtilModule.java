@@ -1,6 +1,7 @@
 package uz.ishborApp.Modules;
 
 import com.google.gson.Gson;
+import com.path.android.jobqueue.JobManager;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
@@ -23,7 +24,8 @@ public class UtilModule {
 
     @Provides
     @Singleton
-    Gson gson(){
+    Gson provideGson(){
         return new Gson();
     }
+
 }

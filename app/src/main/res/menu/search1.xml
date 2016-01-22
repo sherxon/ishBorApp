@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="bir" android:id="@+id/menu1" app:showAsAction="always"/>
+    <item android:title="iki" android:id="@+id/menu2"  app:showAsAction="ifRoom"/>
+    <item android:title="uch" android:id="@+id/menu3"  app:showAsAction="never"/>
+</menu>

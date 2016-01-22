@@ -4,10 +4,13 @@ package uz.ishborApp.Entity;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+
 /**
  * Entity mapped to table "SEARCH".
  */
-public class Search {
+public class Search{
 
     private Long id;
     private String word;
