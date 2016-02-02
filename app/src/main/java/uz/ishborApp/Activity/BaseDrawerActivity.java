@@ -1,9 +1,8 @@
-package uz.ishborApp;
+package uz.ishborApp.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,15 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.DaoMaster;
-
+import uz.ishborApp.MyApplication;
+import uz.ishborApp.R;
 
 
 /**

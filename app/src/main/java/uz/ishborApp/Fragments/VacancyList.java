@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.R;
-import uz.ishborApp.VacancyAdapter;
+import uz.ishborApp.Activity.VacancyAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

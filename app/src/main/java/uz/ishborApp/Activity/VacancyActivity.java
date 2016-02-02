@@ -1,4 +1,4 @@
-package uz.ishborApp;
+package uz.ishborApp.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -10,12 +10,14 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Fragments.VacancyDesc;
 import uz.ishborApp.Fragments.VacancyList;
+import uz.ishborApp.R;
 
 public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener, VacancyList.OnFragmentInteractionListener {
 

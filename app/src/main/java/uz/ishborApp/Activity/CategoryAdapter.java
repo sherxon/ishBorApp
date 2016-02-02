@@ -1,4 +1,4 @@
-package uz.ishborApp;
+package uz.ishborApp.Activity;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Category;
+import uz.ishborApp.R;
 
 /**
  * Created by sherxon on 1/9/16.

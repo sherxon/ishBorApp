@@ -1,9 +1,6 @@
-package uz.ishborApp;
+package uz.ishborApp.Activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +8,6 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.path.android.jobqueue.JobManager;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,12 +18,12 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Components.SearchController;
 import uz.ishborApp.Components.VacancySearchSuggestion;
-import uz.ishborApp.Entity.CategoryDao;
 import uz.ishborApp.Entity.Search;
-import uz.ishborApp.Entity.SearchDao;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
 import uz.ishborApp.Events.SearchSuggestionItemSelected;
 import uz.ishborApp.Jobs.SearchJob;
+import uz.ishborApp.MyApplication;
+import uz.ishborApp.R;
 
 public class MainActivity extends BaseDrawerActivity {
 
@@ -49,7 +45,7 @@ public class MainActivity extends BaseDrawerActivity {
         ButterKnife.bind(this);
 
         super.onCreateDrawer();
-
+        getSupportActionBar().hide();
         MyApplication.get(this).getAppComponent().inject(this);
 
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {

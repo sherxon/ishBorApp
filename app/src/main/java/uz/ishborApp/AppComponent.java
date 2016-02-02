@@ -1,13 +1,13 @@
 package uz.ishborApp;
 
-import android.app.Application;
-
 import com.path.android.jobqueue.JobManager;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
+import uz.ishborApp.Activity.BaseDrawerActivity;
+import uz.ishborApp.Activity.MainActivity;
 import uz.ishborApp.Modules.DbModule;
 import uz.ishborApp.Modules.UtilModule;
 

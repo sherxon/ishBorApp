@@ -1,4 +1,4 @@
-package uz.ishborApp;
+package uz.ishborApp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.CategoryDao;
+import uz.ishborApp.R;
 
 public class VacancyCategoryActivity extends BaseDrawerActivity {
 
