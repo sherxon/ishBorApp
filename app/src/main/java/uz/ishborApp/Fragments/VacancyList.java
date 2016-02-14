@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Vacancy;
+import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.R;
 import uz.ishborApp.Activity.VacancyAdapter;
 
@@ -50,11 +51,11 @@ public class VacancyList extends Fragment {
      * @return A new instance of fragment VacancyList.
      */
     // TODO: Rename and change types and number of parameters
-    public static VacancyList newInstance(List<Vacancy> list) {
-        VacancyList fragment = new VacancyList();
-        fragment.onEvent(list);
-        return fragment;
-    }
+//    public static VacancyList newInstance(List<Vacancy> list) {
+//        VacancyList fragment = new VacancyList();
+//        //fragment.onEvent(list);
+//        return fragment;
+//    }
 
     public VacancyList() {
         // Required empty public constructor
@@ -129,11 +130,10 @@ public class VacancyList extends Fragment {
         mListener = null;
     }
 
-    public void onEvent(List<Vacancy> vacancyList){
-        if(vacancyList==null  || !(vacancyList.get(0) instanceof Vacancy))return;
-        data=vacancyList;
+    public void onEvent(VacancyListEvent vacancyList){
+        data=vacancyList.getVacancyList();
         if(recList!=null){
-            VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList);
+            VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList());
             recList.setAdapter(vacancyAdapter);
         }
     }

@@ -1,6 +1,7 @@
 package uz.ishborApp.Activity;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -34,8 +35,6 @@ public class MainActivity extends BaseDrawerActivity {
     @Inject
     SearchController searchController;
 
-    @Inject
-    JobManager jobManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class MainActivity extends BaseDrawerActivity {
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-               Search search=((VacancySearchSuggestion) searchSuggestion).getSearch();
+                Search search = ((VacancySearchSuggestion) searchSuggestion).getSearch();
                 search.setCreated(new Date());
                 daoMaster.newSession().getSearchDao().insertOrReplace(search);
                 EventBus.getDefault().post(new SearchSuggestionItemSelected(search));
@@ -85,6 +84,17 @@ public class MainActivity extends BaseDrawerActivity {
             @Override
             public void onSearchAction() {
                 System.out.println("onSearchAction()");
+            }
+        });
+        mSearchView.setOnLeftMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
+            @Override
+            public void onMenuOpened() {
+                drawer.openDrawer(GravityCompat.START);
+            }
+
+            @Override
+            public void onMenuClosed() {
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 

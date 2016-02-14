@@ -48,55 +48,7 @@ public class DbBalance {
     public DbBalance() {}
 
 
-    public void loadCategoryToLocalDb(){
-        new AsyncTask<String,Integer, String>(){
-            @Override
-            protected String doInBackground(String... urls) {
-                String result="";
-                for (int i = 0; i <urls.length; i++) {
-                    Request request= new Request.Builder().url(urls[i]).build();
-                    try {
-                        Response response = okHttpClient.newCall(request).execute();
-                        result=response.body().string();
-                        return result;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-
-                Type categoryType=new TypeToken<List<Category>>(){}.getType();
-
-                List<Category> categoryList= Collections.emptyList();
-                try {
-                    categoryList=gson.fromJson(s, categoryType);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                EventBus.getDefault().post(categoryList);
-                CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
-                categoryDao.deleteAll();
-                categoryDao.insertOrReplaceInTx(categoryList);
-
-            }
-        }.execute(Globals.LOCAL_CATEGORY_URL);
-    }
-
-    public void checkCategoryUpdate(){
-        CategoryDao.createTable(db.getWritableDatabase(), true);
-        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
-        long count =  categoryDao.count();
-        if(count==0) loadCategoryToLocalDb();
-        else EventBus.getDefault().post(categoryDao.loadAll());
-
-    }
-    public void loadVacancyToLocalDb(Long categoryId){
+        public void loadVacancyToLocalDb(Long categoryId){
         new AsyncTask<String,Integer, String>(){
             @Override
             protected String doInBackground(String... urls) {
@@ -116,24 +68,10 @@ public class DbBalance {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Type vacancyType=new TypeToken<List<Vacancy>>(){}.getType();
 
-                List<Vacancy> vacancyList= null;
-                try {
-                    vacancyList=gson.fromJson(s, vacancyType);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if(vacancyList==null)vacancyList=Collections.emptyList();
-                EventBus.getDefault().post(vacancyList);
-                VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
-                if(!vacancyList.isEmpty())
-                vacancyDao.queryBuilder().where(VacancyDao.Properties.CategoryId.eq(vacancyList.get(0).getCategoryId()))
-                        .buildDelete().forCurrentThread();
-                vacancyDao.insertOrReplaceInTx(vacancyList);
 
             }
-        }.execute(Globals.LOCAL_CATEGORY_URL+"/"+categoryId+"/vacancy");
+        }.execute();
     }
 
     public void checkVacancyUpdate(Long categoryId){

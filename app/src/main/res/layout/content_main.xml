@@ -18,7 +18,7 @@
         app:floatingSearch_searchHint="Search..."
         app:floatingSearch_showSearchKey="false"
         app:floatingSearch_dismissOnOutsideTouch="true"
-        app:floatingSearch_leftActionMode="noLeftAction"
+        app:floatingSearch_leftActionMode="showHamburger"
         app:floatingSearch_menu="@menu/search1"
         app:floatingSearch_dividerColor="@color/bkg_card"
         android:layout_alignParentTop="true" />

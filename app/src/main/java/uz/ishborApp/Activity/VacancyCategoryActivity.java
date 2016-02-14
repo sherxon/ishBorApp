@@ -16,15 +16,16 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.CategoryDao;
+import uz.ishborApp.Events.CategoryListEvent;
+import uz.ishborApp.Jobs.CategoryListJob;
+import uz.ishborApp.Jobs.VacancyListJob;
+import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
 public class VacancyCategoryActivity extends BaseDrawerActivity {
 
     @Bind(R.id.cardList)
     RecyclerView recList;
-
-    @Inject
-    OkHttpClient okHttpClient;
 
 
     @Override
@@ -43,13 +44,8 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
     }
 
     private void getListOfCategoryAndRenderView() {
-        CategoryDao.createTable(daoMaster.getDatabase(), true);
-        CategoryDao categoryDao=daoMaster.newSession().getCategoryDao();
-
-        if(categoryDao.count()==0)
-            dbBalance.loadCategoryToLocalDb();
-        else
-            onEventMainThread(categoryDao.loadAll());
+        jobManager.addJob(new CategoryListJob());
+        jobManager.start();
 
     }
 
@@ -65,9 +61,8 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(List<Category> categoryList){ //on download
-        if(categoryList==null  || !(categoryList.get(0) instanceof Category))return;
-        CategoryAdapter categoryAdapter=new CategoryAdapter(categoryList);
+    public void onEventMainThread(CategoryListEvent categoryListEvent){ //on download
+        CategoryAdapter categoryAdapter=new CategoryAdapter(categoryListEvent.getCategoryList());
         recList.setAdapter(categoryAdapter);
     }
     public void onEventMainThread(Category category){ //onclick

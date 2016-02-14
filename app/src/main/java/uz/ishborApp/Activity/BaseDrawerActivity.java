@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.path.android.jobqueue.JobManager;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -29,16 +31,22 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawer;
+
     @Inject
     DaoMaster daoMaster;
 
     @Inject
-    DbBalance dbBalance;
+    JobManager jobManager;
+
+//    @Inject
+//    DbBalance dbBalance;
 
 
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
-        DrawerLayout drawer= (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

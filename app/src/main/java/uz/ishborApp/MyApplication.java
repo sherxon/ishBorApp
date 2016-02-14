@@ -4,10 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
+import com.path.android.jobqueue.di.DependencyInjector;
 import com.path.android.jobqueue.log.CustomLogger;
 
+import uz.ishborApp.Jobs.BaseJob;
 import uz.ishborApp.Modules.DbModule;
 import uz.ishborApp.Modules.UtilModule;
 
@@ -68,6 +71,14 @@ public class MyApplication extends Application {
                 .maxConsumerCount(3)//up to 3 consumers at a time
                 .loadFactor(3)//3 jobs per consumer
                 .consumerKeepAlive(120)//wait 2 minute
+                .injector(new DependencyInjector() {
+                    @Override
+                    public void inject(Job job) {
+                        if (job instanceof BaseJob) {
+                            ((BaseJob) job).inject(getAppComponent());
+                        }
+                    }
+                })
                 .build();
         jobManager = new JobManager(this, configuration);
     }

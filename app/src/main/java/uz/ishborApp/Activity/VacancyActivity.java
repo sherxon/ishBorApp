@@ -17,6 +17,7 @@ import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Fragments.VacancyDesc;
 import uz.ishborApp.Fragments.VacancyList;
+import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.R;
 
 public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener, VacancyList.OnFragmentInteractionListener {
@@ -37,22 +38,17 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
 
 
     private void loadCategoryList(Long categoryId) {
-        VacancyDao.createTable(daoMaster.getDatabase(), true);
-        Category category=daoMaster.newSession().getCategoryDao().load(categoryId);
-        List<Vacancy> vacancyList=category.getVacancyList();
-        if(vacancyList.size()==0)
-            dbBalance.loadVacancyToLocalDb(categoryId);
-        else
-            startListFragment(vacancyList);
+        jobManager.addJob(new VacancyListJob(categoryId));
+        jobManager.start();
+        startListFragment();
     }
 
-    private void startListFragment(List<Vacancy> vacancyList) {
+    private void startListFragment() {
         Fragment fragment=new VacancyList();
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id.fJobDesc, fragment);
         transaction.commit();
-        EventBus.getDefault().post(vacancyList);
     }
 
     @Override
