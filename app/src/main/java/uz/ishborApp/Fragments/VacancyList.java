@@ -131,6 +131,7 @@ public class VacancyList extends Fragment {
     }
 
     public void onEvent(VacancyListEvent vacancyList){
+        if(!vacancyList.getTargetClass().equals(VacancyList.class))return;
         data=vacancyList.getVacancyList();
         if(recList!=null){
             VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList());

@@ -16,6 +16,7 @@ import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Events.VacancyListEvent;
+import uz.ishborApp.Fragments.VacancyList;
 
 /**
  * Created by sherxon on 2/13/16.
@@ -50,7 +51,7 @@ public class VacancyListJob extends BaseJob{
         if(vacancyList.size()==0)
             loadVacancyFromApi();
         else
-            EventBus.getDefault().post(new VacancyListEvent(vacancyList));
+            EventBus.getDefault().post(new VacancyListEvent(vacancyList,VacancyList.class));
 
     }
 
@@ -71,7 +72,9 @@ public class VacancyListJob extends BaseJob{
             e.printStackTrace();
         }
         if(vacancyList==null)vacancyList= Collections.emptyList();
-        EventBus.getDefault().post(new VacancyListEvent(vacancyList));
+
+        EventBus.getDefault().post(new VacancyListEvent(vacancyList, VacancyList.class));
+
         VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
         if(!vacancyList.isEmpty())
             vacancyDao.queryBuilder().where(VacancyDao.Properties.CategoryId.eq(vacancyList.get(0).getCategoryId()))

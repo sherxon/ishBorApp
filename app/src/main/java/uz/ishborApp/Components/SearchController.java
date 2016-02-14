@@ -36,20 +36,8 @@ public class SearchController {
     @Inject
     Gson gson;
 
-
-
-   private final static SearchController controller= new SearchController();
-
     @Inject @Singleton
     public SearchController() {
-    }
-
-    public static SearchController getInstance() {
-        return controller;
-    }
-
-    public void setDaoMaster(DaoMaster daoMaster) {
-        this.daoMaster = daoMaster;
     }
 
     public List<VacancySearchSuggestion> getSearchHistory(int count) {
@@ -64,19 +52,7 @@ public class SearchController {
     }
 
 
-    public String searchTags(String query) throws IOException {
-        Request request= new Request.Builder().url(Globals.LOCAL_SEARCH_URL+"/tag/"+ query).build();
-        Response response = new OkHttpClient().newCall(request).execute();
-        return response.body().string();
-    }
 
-    public List<VacancySearchSuggestion> searchSuggestionList(String json){
-        Type searchType=new TypeToken<List<Search>>(){}.getType();
-        List<Search> searchList=new Gson().fromJson(json, searchType);
-        List<VacancySearchSuggestion> suggestionList=new LinkedList<>();
-        for (Search search : searchList) {
-            suggestionList.add(new VacancySearchSuggestion(search, false));
-        }
-        return suggestionList;
-    }
+
+
 }

@@ -8,8 +8,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Activity.MainActivity;
-import uz.ishborApp.Jobs.BaseJob;
 import uz.ishborApp.Jobs.CategoryListJob;
+import uz.ishborApp.Jobs.SearchTagJob;
+import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.Modules.DbModule;
 import uz.ishborApp.Modules.UtilModule;
@@ -30,11 +31,19 @@ public interface AppComponent {
     OkHttpClient okHttpClient();
 
     void inject(BaseDrawerActivity currentActivity);
+
     void inject(MainActivity mainActivity);
+
     void inject(MyApplication application);
+
     void inject(JobManager jobManager);
+
     void inject(CategoryListJob categoryListJob);
 
     void inject(VacancyListJob vacancyListJob);
+
+    void inject(SearchTagJob searchTagJob);
+
+    void inject(SearchVacancyByTagJob searchVacancyByTagJob);
 
 }

@@ -7,9 +7,7 @@ import android.view.MenuItem;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.path.android.jobqueue.JobManager;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,8 +19,9 @@ import uz.ishborApp.Components.SearchController;
 import uz.ishborApp.Components.VacancySearchSuggestion;
 import uz.ishborApp.Entity.Search;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
-import uz.ishborApp.Events.SearchSuggestionItemSelected;
-import uz.ishborApp.Jobs.SearchJob;
+import uz.ishborApp.Events.VacancyListEvent;
+import uz.ishborApp.Jobs.SearchTagJob;
+import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
@@ -54,7 +53,7 @@ public class MainActivity extends BaseDrawerActivity {
                     mSearchView.clearSuggestions();
                 } else {
                     mSearchView.showProgress();
-                    jobManager.addJob(new SearchJob(newQuery));
+                    jobManager.addJob(new SearchTagJob(newQuery));
                     jobManager.start();
                 }
             }
@@ -63,7 +62,6 @@ public class MainActivity extends BaseDrawerActivity {
             @Override
             public void onFocus() {
                 List<VacancySearchSuggestion> suggestionList = searchController.getSearchHistory(4);
-                searchController.setDaoMaster(daoMaster);
                 mSearchView.swapSuggestions(suggestionList);
             }
 
@@ -76,9 +74,10 @@ public class MainActivity extends BaseDrawerActivity {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
                 Search search = ((VacancySearchSuggestion) searchSuggestion).getSearch();
-                search.setCreated(new Date());
-                daoMaster.newSession().getSearchDao().insertOrReplace(search);
-                EventBus.getDefault().post(new SearchSuggestionItemSelected(search));
+                //EventBus.getDefault().post(new SearchSuggestionSelectedEvent(search));
+                jobManager.addJob(new SearchVacancyByTagJob(search));
+                jobManager.start();
+
             }
 
             @Override
@@ -116,7 +115,10 @@ public class MainActivity extends BaseDrawerActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    public void onEvent(VacancyListEvent vacancyList){
+        if(!vacancyList.getTargetClass().equals(MainActivity.class))return;
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
