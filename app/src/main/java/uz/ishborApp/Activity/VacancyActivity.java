@@ -20,7 +20,8 @@ import uz.ishborApp.Fragments.VacancyList;
 import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.R;
 
-public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener, VacancyList.OnFragmentInteractionListener {
+public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener,
+        VacancyList.OnFragmentInteractionListener {
 
 
     @Override
@@ -38,9 +39,9 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
 
 
     private void loadCategoryList(Long categoryId) {
+        startListFragment();
         jobManager.addJob(new VacancyListJob(categoryId));
         jobManager.start();
-        startListFragment();
     }
 
     private void startListFragment() {
@@ -64,7 +65,7 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
     }
 
     public void onEventMainThread(Vacancy vacancy){
-        Fragment fragment=new VacancyDesc();
+        Fragment fragment=VacancyDesc.newInstance(vacancy.getDescc());
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG).addToBackStack("VACANCY_LIST_TAG");

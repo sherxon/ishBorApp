@@ -44,14 +44,14 @@ public class VacancyListJob extends BaseJob{
 
     @Override
     public void onRun() throws Throwable {
-
-        VacancyDao.createTable(daoMaster.getDatabase(), true);
-        Category category=daoMaster.newSession().getCategoryDao().load(categoryId);
-        List<Vacancy> vacancyList=category.getVacancyList();
-        if(vacancyList.size()==0)
-            loadVacancyFromApi();
-        else
-            EventBus.getDefault().post(new VacancyListEvent(vacancyList,VacancyList.class));
+        loadVacancyFromApi();
+//        VacancyDao.createTable(daoMaster.getDatabase(), true);
+//        Category category=daoMaster.newSession().getCategoryDao().load(categoryId);
+//        List<Vacancy> vacancyList=category.getVacancyList();
+//        if(vacancyList.size()==0)
+//            loadVacancyFromApi();
+//        else
+//            EventBus.getDefault().post(new VacancyListEvent(vacancyList,VacancyList.class));
 
     }
 

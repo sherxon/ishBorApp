@@ -4,67 +4,51 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import uz.ishborApp.Entity.Vacancy;
+import de.greenrobot.event.EventBus;
+import uz.ishborApp.Activity.VacancyAdapter;
+import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link VacancyDesc.OnFragmentInteractionListener} interface
+ * {@link SearchResultListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link VacancyDesc#newInstance} factory method to
+ * Use the {@link SearchResultListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VacancyDesc extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class SearchResultListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.jobDesc)
-    TextView textView;
-    //private Vacancy vacancy;
+    @Bind(R.id.recycleSearchResult)
+    RecyclerView recyclerView;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VacancyDesc.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static VacancyDesc newInstance(String descc) {
-        VacancyDesc fragment = new VacancyDesc();
+
+    public static SearchResultListFragment newInstance() {
+        SearchResultListFragment fragment = new SearchResultListFragment();
         Bundle args = new Bundle();
-        args.putString("descc", descc);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public VacancyDesc() {
+    public SearchResultListFragment() {
         // Required empty public constructor
+      //  EventBus.getDefault().register(this);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -72,16 +56,36 @@ public class VacancyDesc extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_vacancy_desc, container, false);
+        View view= inflater.inflate(R.layout.fragment_search_result_list, container, false);
         ButterKnife.bind(this, view);
-        textView.setText(getArguments().getString("descc"));
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm= new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
         return view;
+    }
+    public void onEvent(VacancyListEvent vacancyListEvent){
+        if(!vacancyListEvent.getTargetClass().equals(SearchResultListFragment.class))return;
+        VacancyAdapter vacancyAdapter= new VacancyAdapter(vacancyListEvent.getVacancyList());
+        recyclerView.setAdapter(vacancyAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onVacancyDescFragmentInteraction(uri);
+            mListener.onFragmentInteraction(uri);
         }
     }
 
@@ -114,7 +118,7 @@ public class VacancyDesc extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onVacancyDescFragmentInteraction(Uri uri);
+        public void onFragmentInteraction(Uri uri);
     }
 
 }

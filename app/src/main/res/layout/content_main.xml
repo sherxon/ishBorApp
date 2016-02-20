@@ -22,5 +22,9 @@
         app:floatingSearch_menu="@menu/search1"
         app:floatingSearch_dividerColor="@color/bkg_card"
         android:layout_alignParentTop="true" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragmentSearchResult"
+        />
 </RelativeLayout>

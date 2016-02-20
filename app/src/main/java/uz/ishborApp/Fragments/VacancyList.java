@@ -29,14 +29,7 @@ import uz.ishborApp.Activity.VacancyAdapter;
  * create an instance of this fragment.
  */
 public class VacancyList extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,15 +44,15 @@ public class VacancyList extends Fragment {
      * @return A new instance of fragment VacancyList.
      */
     // TODO: Rename and change types and number of parameters
-//    public static VacancyList newInstance(List<Vacancy> list) {
-//        VacancyList fragment = new VacancyList();
-//        //fragment.onEvent(list);
-//        return fragment;
-//    }
+    public static VacancyList newInstance(List<Vacancy> list) {
+        VacancyList fragment = new VacancyList();
+        //fragment.onEvent(list);
+        return fragment;
+    }
 
     public VacancyList() {
         // Required empty public constructor
-        EventBus.getDefault().register(this);
+
     }
 
 
@@ -67,8 +60,6 @@ public class VacancyList extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -81,7 +72,7 @@ public class VacancyList extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -97,14 +88,6 @@ public class VacancyList extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if(data!=null && recList.getAdapter()==null){
-            VacancyAdapter vacancyAdapter=new VacancyAdapter(data);
-            recList.setAdapter(vacancyAdapter);
-        }
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -130,7 +113,7 @@ public class VacancyList extends Fragment {
         mListener = null;
     }
 
-    public void onEvent(VacancyListEvent vacancyList){
+    public void onEventMainThread(VacancyListEvent vacancyList){
         if(!vacancyList.getTargetClass().equals(VacancyList.class))return;
         data=vacancyList.getVacancyList();
         if(recList!=null){

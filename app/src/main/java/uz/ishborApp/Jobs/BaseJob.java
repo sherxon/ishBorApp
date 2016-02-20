@@ -8,7 +8,6 @@ import com.squareup.okhttp.OkHttpClient;
 import javax.inject.Inject;
 
 import uz.ishborApp.AppComponent;
-import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.DaoMaster;
 
 /**
@@ -20,15 +19,10 @@ public abstract class BaseJob extends Job {
     transient DaoMaster daoMaster;
 
     @Inject
-    transient DbBalance dbBalance;
-
-    @Inject
     transient OkHttpClient okHttpClient;
 
     @Inject
     transient Gson gson;
-
-
 
     public BaseJob(Params params) {
         super(params);

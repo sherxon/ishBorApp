@@ -17,7 +17,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import uz.ishborApp.Components.Globals;
-import uz.ishborApp.DAO.DbBalance;
 import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
