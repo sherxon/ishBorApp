@@ -85,6 +85,7 @@ public class VacancyList extends Fragment {
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
+        if(data!=null) recList.setAdapter(new VacancyAdapter(data));
         return view;
     }
 

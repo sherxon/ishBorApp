@@ -39,10 +39,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     @Inject
     JobManager jobManager;
 
-//    @Inject
-//    DbBalance dbBalance;
-
-
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
 

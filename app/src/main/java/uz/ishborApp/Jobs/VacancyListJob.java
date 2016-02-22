@@ -12,7 +12,6 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
-import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Events.VacancyListEvent;
@@ -40,6 +39,11 @@ public class VacancyListJob extends BaseJob{
     public void inject(AppComponent appComponent) {
         super.inject(appComponent);
         appComponent.inject(this);
+    }
+
+    @Override
+    protected int getRetryLimit() {
+        return 5;
     }
 
     @Override

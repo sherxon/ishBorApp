@@ -65,7 +65,8 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
     }
 
     public void onEventMainThread(Vacancy vacancy){
-        Fragment fragment=VacancyDesc.newInstance(vacancy.getDescc());
+        String url=Globals.LOCAL_JOBDESC + vacancy.getId();
+        Fragment fragment=VacancyDesc.newInstance(url);
         FragmentManager manager=getFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id.fJobDesc, fragment, Globals.FRAGMENT_TAG).addToBackStack("VACANCY_LIST_TAG");

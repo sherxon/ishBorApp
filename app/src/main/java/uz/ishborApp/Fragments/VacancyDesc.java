@@ -7,10 +7,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.R;
 
@@ -33,23 +36,26 @@ public class VacancyDesc extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.jobDesc)
-    TextView textView;
+    @Bind(R.id.btnApply)
+    //@OnClick(value = )
+    Button btnApply;
+
+    @Bind(R.id.wvJobDesc)
+    WebView jobDesc;
+
     //private Vacancy vacancy;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment VacancyDesc.
      */
     // TODO: Rename and change types and number of parameters
-    public static VacancyDesc newInstance(String descc) {
+    public static VacancyDesc newInstance(String url) {
         VacancyDesc fragment = new VacancyDesc();
         Bundle args = new Bundle();
-        args.putString("descc", descc);
+        args.putString("url", url);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +80,8 @@ public class VacancyDesc extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_vacancy_desc, container, false);
         ButterKnife.bind(this, view);
-        textView.setText(getArguments().getString("descc"));
+        jobDesc.getSettings().setJavaScriptEnabled(true);
+        jobDesc.loadUrl(getArguments().getString("url"));
         return view;
     }
 

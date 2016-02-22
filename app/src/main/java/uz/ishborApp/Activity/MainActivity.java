@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import java.util.List;
@@ -35,7 +34,6 @@ public class MainActivity extends BaseDrawerActivity
     @Inject
     SearchController searchController;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +53,7 @@ public class MainActivity extends BaseDrawerActivity
                     mSearchView.clearSuggestions();
                 } else {
                     mSearchView.showProgress();
-                    //setSearchResultListFragment();
+                    setSearchResultListFragment();
                     jobManager.addJob(new SearchTagJob(newQuery));
                     jobManager.start();
 
