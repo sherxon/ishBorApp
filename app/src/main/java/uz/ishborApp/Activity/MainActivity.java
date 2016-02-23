@@ -2,105 +2,39 @@ package uz.ishborApp.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
-import java.util.List;
-import javax.inject.Inject;
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.Components.SearchController;
-import uz.ishborApp.Components.VacancySearchSuggestion;
-import uz.ishborApp.Entity.Search;
-import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
+import uz.ishborApp.Fragments.MainFragment;
 import uz.ishborApp.Fragments.SearchResultListFragment;
-import uz.ishborApp.Jobs.SearchTagJob;
-import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
-public class MainActivity extends BaseDrawerActivity
-        implements SearchResultListFragment.OnFragmentInteractionListener{
-
-
-    @Bind(R.id.floating_search_view)
-    FloatingSearchView mSearchView;
-
-    @Inject
-    SearchController searchController;
+public class MainActivity extends BaseDrawerActivity implements FragmentManager.OnBackStackChangedListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
 
-        super.onCreateDrawer();
+        onCreateDrawer();
 
-        if(getSupportActionBar()!=null) getSupportActionBar().hide();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        homeAsUpByBackStack();
+
+        if(savedInstanceState==null)
+            getSupportFragmentManager().beginTransaction().
+                    add(R.id._fragment, new MainFragment())
+                    .commit();
 
         MyApplication.get(this).getAppComponent().inject(this);
-
-
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    mSearchView.clearSuggestions();
-                } else {
-                    mSearchView.showProgress();
-                    setSearchResultListFragment();
-                    jobManager.addJob(new SearchTagJob(newQuery));
-                    jobManager.start();
-
-                }
-            }
-        });
-        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
-            @Override
-            public void onFocus() {
-                List<VacancySearchSuggestion> suggestionList = searchController.getSearchHistory(4);
-                mSearchView.swapSuggestions(suggestionList);
-            }
-
-            @Override
-            public void onFocusCleared() {
-
-            }
-        });
-        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                Search search = ((VacancySearchSuggestion) searchSuggestion).getSearch();
-                //EventBus.getDefault().post(new SearchSuggestionSelectedEvent(search));
-                jobManager.addJob(new SearchVacancyByTagJob(search.getWord()));
-                jobManager.start();
-            }
-
-            @Override
-            public void onSearchAction() {
-                System.out.println("onSearchAction()");
-            }
-        });
-        mSearchView.setOnLeftMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
-            @Override
-            public void onMenuOpened() {
-                drawer.openDrawer(GravityCompat.START);
-            }
-
-            @Override
-            public void onMenuClosed() {
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-
     }
 
     private void setSearchResultListFragment() {
@@ -110,15 +44,16 @@ public class MainActivity extends BaseDrawerActivity
         transaction.commit();
     }
 
-    public void onEventMainThread(SearchSuggestionItemResultEvent event){
-        mSearchView.swapSuggestions(event.getList());
-        mSearchView.hideProgress();
-    }
+
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    public void onEventMainThread(AuthActivity authActivity){
+
     }
 
     @Override
@@ -152,9 +87,16 @@ public class MainActivity extends BaseDrawerActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
+    private void homeAsUpByBackStack() {
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (backStackEntryCount > 0) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
     }
-
+    @Override
+    public void onBackStackChanged() {
+     homeAsUpByBackStack();
+    }
 }

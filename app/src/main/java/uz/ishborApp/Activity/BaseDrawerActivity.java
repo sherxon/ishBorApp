@@ -26,9 +26,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
 
-//    @Inject
-//    DaoMaster daoMaster;
-
     @Inject
     JobManager jobManager;
 
