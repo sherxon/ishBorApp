@@ -1,4 +1,4 @@
-package uz.ishborApp.Activity;
+package uz.ishborApp.Adaptars;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

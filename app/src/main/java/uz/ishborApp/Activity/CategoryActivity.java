@@ -6,24 +6,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.squareup.okhttp.OkHttpClient;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Adaptars.CategoryAdapter;
 import uz.ishborApp.Entity.Category;
-import uz.ishborApp.Entity.CategoryDao;
 import uz.ishborApp.Events.CategoryListEvent;
 import uz.ishborApp.Jobs.CategoryListJob;
-import uz.ishborApp.Jobs.VacancyListJob;
-import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
-public class VacancyCategoryActivity extends BaseDrawerActivity {
+public class CategoryActivity extends BaseDrawerActivity {
 
     @Bind(R.id.cardList)
     RecyclerView recList;

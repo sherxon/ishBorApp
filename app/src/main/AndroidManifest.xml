@@ -3,7 +3,8 @@
     package="uz.ishborApp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -22,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.VacancyCategoryActivity"
+            android:name=".Activity.CategoryActivity"
             android:label="@string/title_activity_vacancy_category"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
@@ -30,6 +31,13 @@
             android:name=".Activity.VacancyActivity"
             android:label="@string/title_activity_vacancy"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="966907830061255" />
+
+        <activity android:name=".Activity.AuthActivity" >
         </activity>
     </application>
 

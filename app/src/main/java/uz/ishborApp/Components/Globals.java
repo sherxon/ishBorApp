@@ -12,5 +12,7 @@ public class Globals {
     public static final String LOCAL_SEARCHBY_TAG =LOCAL_HOST+"vacancy/search/" ;
     public final static String LOCAL_JOBDESC= LOCAL_HOST+"vacancy/html/";
 
+    public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
+
     public final static String FRAGMENT_TAG="FRAGMENT_TAG";
 }

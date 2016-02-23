@@ -1,26 +1,19 @@
 package uz.ishborApp.Activity;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
 import com.path.android.jobqueue.JobManager;
-
 import javax.inject.Inject;
-
 import butterknife.Bind;
 import uz.ishborApp.Components.Globals;
-import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
-
 
 /**
  * Created by sherxon on 1/5/16.
@@ -62,6 +55,11 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
         }
     }
 
+//    @OnClick(R.id.toolbar)
+//    public void toolBarNavigataionOnClicked(View view){
+//        View view1=view;
+//    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -71,7 +69,7 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }else if(id==R.id.nav_category){
-            Intent intent=new Intent(this, VacancyCategoryActivity.class);
+            Intent intent=new Intent(this, CategoryActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }

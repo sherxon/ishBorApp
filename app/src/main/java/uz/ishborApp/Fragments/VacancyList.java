@@ -18,7 +18,7 @@ import de.greenrobot.event.EventBus;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.R;
-import uz.ishborApp.Activity.VacancyAdapter;
+import uz.ishborApp.Adaptars.VacancyAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

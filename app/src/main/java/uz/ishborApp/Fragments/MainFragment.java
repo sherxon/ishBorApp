@@ -1,4 +1,4 @@
-package uz.ishborApp;
+package uz.ishborApp.Fragments;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import uz.ishborApp.R;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainFragment extends Fragment {
 
-    public MainActivityFragment() {
+    public MainFragment() {
     }
 
     @Override

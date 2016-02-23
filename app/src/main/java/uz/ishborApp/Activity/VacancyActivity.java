@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 
@@ -21,8 +22,7 @@ import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.R;
 
 public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.OnFragmentInteractionListener,
-        VacancyList.OnFragmentInteractionListener {
-
+        VacancyList.OnFragmentInteractionListener, View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,9 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
         super.onCreateDrawer();
         toolbar.setTitle(getIntent().getExtras().getString("title"));
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationOnClickListener(this);
 
-        long categoryId= getIntent().getExtras().getLong("id");
+        long categoryId = getIntent().getExtras().getLong("id");
         loadCategoryList(categoryId);
     }
 
@@ -84,5 +85,10 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
     @Override
     public void onVacancyListFragmentInteraction() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onBackPressed();
     }
 }

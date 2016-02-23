@@ -5,11 +5,11 @@ import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+
 import java.util.List;
 import javax.inject.Inject;
 import butterknife.Bind;
@@ -35,11 +35,11 @@ public class MainActivity extends BaseDrawerActivity
     @Inject
     SearchController searchController;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
         super.onCreateDrawer();
@@ -156,4 +156,5 @@ public class MainActivity extends BaseDrawerActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

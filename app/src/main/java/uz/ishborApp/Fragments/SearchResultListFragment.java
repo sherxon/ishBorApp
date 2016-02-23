@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.Activity.VacancyAdapter;
+import uz.ishborApp.Adaptars.VacancyAdapter;
 import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.R;
 
