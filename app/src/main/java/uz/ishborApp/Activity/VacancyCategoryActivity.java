@@ -2,6 +2,7 @@ package uz.ishborApp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -33,7 +34,13 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vacancy_category);
         ButterKnife.bind(this);
+
         super.onCreateDrawer();
+
+        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         recList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(this);
@@ -46,7 +53,6 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
     private void getListOfCategoryAndRenderView() {
         jobManager.addJob(new CategoryListJob());
         jobManager.start();
-
     }
 
     @Override
@@ -69,6 +75,7 @@ public class VacancyCategoryActivity extends BaseDrawerActivity {
         Intent intent=new Intent(this, VacancyActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("id", category.getId());
+        intent.putExtra("title", category.getTitle());
 
         startActivity(intent);
     }

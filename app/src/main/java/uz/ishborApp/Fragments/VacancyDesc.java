@@ -36,9 +36,6 @@ public class VacancyDesc extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.btnApply)
-    //@OnClick(value = )
-    Button btnApply;
 
     @Bind(R.id.wvJobDesc)
     WebView jobDesc;

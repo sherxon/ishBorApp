@@ -32,6 +32,8 @@ public class VacancyActivity extends BaseDrawerActivity implements VacancyDesc.O
         ButterKnife.bind(this);
 
         super.onCreateDrawer();
+        toolbar.setTitle(getIntent().getExtras().getString("title"));
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
 
         long categoryId= getIntent().getExtras().getLong("id");
         loadCategoryList(categoryId);

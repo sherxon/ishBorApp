@@ -33,8 +33,8 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
 
-    @Inject
-    DaoMaster daoMaster;
+//    @Inject
+//    DaoMaster daoMaster;
 
     @Inject
     JobManager jobManager;
@@ -42,10 +42,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
         NavigationView navigationView= (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         MyApplication.get(this).getAppComponent().inject(this);
@@ -79,8 +75,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
