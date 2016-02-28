@@ -8,4 +8,36 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="search_view_inset">5dp</dimen>
+
+    <dimen name="image_cover_height">72dp</dimen>
+    <dimen name="image_cover_width">72dp</dimen>
+
+    <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="palylist_grid_spacing">8dp</dimen>
+
+    <!-- Media Suggestion -->
+    <dimen name="media_suggestion_image_width">48dp</dimen>
+    <dimen name="media_suggestion_image_height">48dp</dimen>
+
+    <!--Resent Search items-->
+    <dimen name="search_view_item_padding">3dp</dimen>
+    <dimen name="search_view_item_radius">2dp</dimen>
+
+    <!-- ****** -->
+    <!-- SECTION VALUES -->
+    <!-- ****** -->
+    <dimen name="section_header_top_bottom_padding">5dp</dimen>
+    <dimen name="section_see_all_layout_height">35dp</dimen>
+    <dimen name="section_see_all_text_size">12sp</dimen>
+    <dimen name="section_see_all_padding">10dp</dimen>
+    <dimen name="section_see_all_elevation">8dp</dimen>
+
+
+    <!-- ****** -->
+    <!-- ADD TO PLAYLIST VALUES -->
+    <!-- ****** -->
+    <dimen name="add_to_playlist_item_height">48dp</dimen>
+    <dimen name="playlist_list_image_side">72dp</dimen>
+
+    <dimen name="spinner_bottom_margin">0dp</dimen>
 </resources>

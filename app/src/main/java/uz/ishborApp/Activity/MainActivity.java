@@ -9,42 +9,50 @@ import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Entity.Category;
 import uz.ishborApp.Fragments.MainFragment;
-import uz.ishborApp.Fragments.SearchResultListFragment;
+import uz.ishborApp.Fragments.VacancyListFragment;
+import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
 public class MainActivity extends BaseDrawerActivity implements FragmentManager.OnBackStackChangedListener {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
         onCreateDrawer();
-
         getSupportFragmentManager().addOnBackStackChangedListener(this);
         homeAsUpByBackStack();
-
         if(savedInstanceState==null)
             getSupportFragmentManager().beginTransaction().
-                    add(R.id._fragment, new MainFragment())
-                    .commit();
+                    replace(R.id._fragment, MainFragment.newInstance(this)).
+                    commit();
 
         MyApplication.get(this).getAppComponent().inject(this);
     }
 
-    private void setSearchResultListFragment() {
-        Fragment fragment= new SearchResultListFragment();
-        FragmentTransaction transaction=getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentSearchResult, fragment);
+//    private void setSearchResultListFragment() {
+//        Fragment fragment= new SearchResultListFragment();
+//        FragmentTransaction transaction=getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.fragmentSearchResult, fragment);
+//        transaction.commit();
+//    }
+
+    public void onEventMainThread(Category category){
+
+        Fragment fragment=new VacancyListFragment();
+        android.app.FragmentManager manager=getFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.add(R.id._fragment, fragment).addToBackStack("vacancyList");
         transaction.commit();
+        jobManager.addJob(new VacancyListJob(category.getId()));
+        jobManager.start();
+
     }
-
-
 
     @Override
     protected void onStart() {
@@ -52,9 +60,6 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
         EventBus.getDefault().register(this);
     }
 
-    public void onEventMainThread(AuthActivity authActivity){
-
-    }
 
     @Override
     protected void onStop() {
@@ -77,12 +82,27 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+         if(id==android.R.id.home){
+             if(backStackEntryCount>1){
+                 getFragmentManager().popBackStackImmediate();
+                 drawer.setDrawerListener(null);
+                 homeAsUpByBackStack();
+                 return true;
+             }else if(backStackEntryCount==1) {
+                 return true;
+             }else{
+                 System.out.println("smth");
+                 return  true;
+             }
+
+         }
+
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-
 
         return super.onOptionsItemSelected(item);
     }

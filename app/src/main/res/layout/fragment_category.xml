@@ -1,14 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="uz.ishborApp.Fragments.VacancyListFragment"
-    android:background="@color/bkg_card"
-    >
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="match_parent" tools:context="uz.ishborApp.Fragments.CategoryFragment">
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardListVacancy"
+        android:id="@+id/cardList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 </RelativeLayout>
-

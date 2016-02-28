@@ -23,15 +23,11 @@ import uz.ishborApp.Adaptars.VacancyAdapter;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link VacancyList.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link VacancyList#newInstance} factory method to
+ * Use the {@link VacancyListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VacancyList extends Fragment {
-
-
-    private OnFragmentInteractionListener mListener;
+public class VacancyListFragment extends Fragment {
 
     @Bind(R.id.cardListVacancy)
     RecyclerView recList;
@@ -41,16 +37,16 @@ public class VacancyList extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment VacancyList.
+     * @return A new instance of fragment VacancyListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VacancyList newInstance(List<Vacancy> list) {
-        VacancyList fragment = new VacancyList();
+    public static VacancyListFragment newInstance(List<Vacancy> list) {
+        VacancyListFragment fragment = new VacancyListFragment();
         //fragment.onEvent(list);
         return fragment;
     }
 
-    public VacancyList() {
+    public VacancyListFragment() {
         // Required empty public constructor
 
     }
@@ -89,33 +85,8 @@ public class VacancyList extends Fragment {
         return view;
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onVacancyListFragmentInteraction();
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     public void onEventMainThread(VacancyListEvent vacancyList){
-        if(!vacancyList.getTargetClass().equals(VacancyList.class))return;
+        if(!vacancyList.getTargetClass().equals(VacancyListFragment.class))return;
         data=vacancyList.getVacancyList();
         if(recList!=null){
             VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList());
@@ -133,9 +104,6 @@ public class VacancyList extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-         void onVacancyListFragmentInteraction();
-    }
+
 
 }

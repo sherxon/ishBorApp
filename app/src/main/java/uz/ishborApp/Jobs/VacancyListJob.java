@@ -15,7 +15,7 @@ import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Events.VacancyListEvent;
-import uz.ishborApp.Fragments.VacancyList;
+import uz.ishborApp.Fragments.VacancyListFragment;
 
 /**
  * Created by sherxon on 2/13/16.
@@ -55,7 +55,7 @@ public class VacancyListJob extends BaseJob{
 //        if(vacancyList.size()==0)
 //            loadVacancyFromApi();
 //        else
-//            EventBus.getDefault().post(new VacancyListEvent(vacancyList,VacancyList.class));
+//            EventBus.getDefault().post(new VacancyListEvent(vacancyList,VacancyListFragment.class));
 
     }
 
@@ -77,7 +77,7 @@ public class VacancyListJob extends BaseJob{
         }
         if(vacancyList==null)vacancyList= Collections.emptyList();
 
-        EventBus.getDefault().post(new VacancyListEvent(vacancyList, VacancyList.class));
+        EventBus.getDefault().post(new VacancyListEvent(vacancyList, VacancyListFragment.class));
 
         VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
         if(!vacancyList.isEmpty())

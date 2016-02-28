@@ -9,18 +9,18 @@ import uz.ishborApp.Entity.Search;
 /**
  * Created by sherxon on 1/21/16.
  */
-public class VacancySearchSuggestion implements SearchSuggestion {
+public class TagSuggestionItem implements SearchSuggestion {
 
     private Search search;
 
     private boolean isHistory;
 
-    public VacancySearchSuggestion(Search search, boolean isHistory) {
+    public TagSuggestionItem(Search search, boolean isHistory) {
         this.search = search;
         this.isHistory = isHistory;
     }
 
-    public VacancySearchSuggestion(Parcel parcel) {
+    public TagSuggestionItem(Parcel parcel) {
 
     }
 
@@ -62,15 +62,15 @@ public class VacancySearchSuggestion implements SearchSuggestion {
         parcel.writeString(search.getWord());
     }
 
-    public static final Creator<VacancySearchSuggestion> CREATOR= new Creator<VacancySearchSuggestion>() {
+    public static final Creator<TagSuggestionItem> CREATOR= new Creator<TagSuggestionItem>() {
         @Override
-        public VacancySearchSuggestion createFromParcel(Parcel parcel) {
-            return new VacancySearchSuggestion(parcel);
+        public TagSuggestionItem createFromParcel(Parcel parcel) {
+            return new TagSuggestionItem(parcel);
         }
 
         @Override
-        public VacancySearchSuggestion[] newArray(int i) {
-            return new VacancySearchSuggestion[i];
+        public TagSuggestionItem[] newArray(int i) {
+            return new TagSuggestionItem[i];
         }
     };
 }

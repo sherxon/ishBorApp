@@ -2,19 +2,19 @@ package uz.ishborApp.Events;
 
 import java.util.List;
 
-import uz.ishborApp.Components.VacancySearchSuggestion;
+import uz.ishborApp.Components.TagSuggestionItem;
 
 /**
  * Created by sherxon on 1/21/16.
  */
 public class SearchSuggestionItemResultEvent {
-   private List<VacancySearchSuggestion> list;
+   private List<TagSuggestionItem> list;
 
-    public SearchSuggestionItemResultEvent(List<VacancySearchSuggestion> list) {
+    public SearchSuggestionItemResultEvent(List<TagSuggestionItem> list) {
         this.list = list;
     }
 
-    public List<VacancySearchSuggestion> getList() {
+    public List<TagSuggestionItem> getList() {
         return list;
     }
 }

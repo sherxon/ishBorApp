@@ -1,7 +1,7 @@
 package uz.ishborApp.Fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +20,10 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Activity.MainActivity;
 import uz.ishborApp.Components.SearchController;
-import uz.ishborApp.Components.VacancySearchSuggestion;
+import uz.ishborApp.Components.TagSuggestionItem;
 import uz.ishborApp.Entity.Search;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
+import uz.ishborApp.Events.TagSuggestionClickedEvent;
 import uz.ishborApp.Jobs.SearchTagJob;
 import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.MyApplication;
@@ -42,7 +43,13 @@ public class MainFragment extends Fragment {
     @Inject
     SearchController searchController;
 
+   static private MainActivity parentActivity;
     public MainFragment() {
+    }
+    public static Fragment newInstance(MainActivity mainActivity) {
+        parentActivity=mainActivity;
+        MainFragment mainFragment=new MainFragment();
+        return mainFragment;
     }
 
     @Override
@@ -54,12 +61,14 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView= inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView= inflater.inflate(R.layout.fragment_main, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        if(((MainActivity)getActivity()).getSupportActionBar()!=null)
-            ((MainActivity)getActivity()).getSupportActionBar().hide();
+        if(parentActivity.getSupportActionBar()!=null){
+           parentActivity.getSupportActionBar().hide();
+        }
+
 
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
@@ -71,30 +80,36 @@ public class MainFragment extends Fragment {
                     //setSearchResultListFragment();
                     jobManager.addJob(new SearchTagJob(newQuery));
                     jobManager.start();
-
                 }
             }
         });
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
             public void onFocus() {
-                List<VacancySearchSuggestion> suggestionList = searchController.getSearchHistory(4);
+                //parentActivity.toolbar.animate().translationY(-parentActivity.toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
+                //parentActivity.appBar.animate().translationY(-parentActivity.appBar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
+                //parentActivity.toolbar.setVisibility(View.GONE);
+                //parentActivity.getSupportActionBar().hide();
+
+                List<TagSuggestionItem> suggestionList = searchController.getSearchHistory(4);
                 mSearchView.swapSuggestions(suggestionList);
+
             }
 
             @Override
             public void onFocusCleared() {
-
+                    mSearchView.hideProgress();
             }
         });
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                Search search = ((VacancySearchSuggestion) searchSuggestion).getSearch();
-                //EventBus.getDefault().post(new SearchSuggestionSelectedEvent(search));
+                Search search = ((TagSuggestionItem) searchSuggestion).getSearch();
                 jobManager.addJob(new SearchVacancyByTagJob(search.getWord()));
                 jobManager.start();
+                EventBus.getDefault().post(new TagSuggestionClickedEvent(search));
+                mSearchView.setSearchHint(search.getWord());
             }
 
             @Override
@@ -102,18 +117,20 @@ public class MainFragment extends Fragment {
                 System.out.println("onSearchAction()");
             }
         });
-//        mSearchView.setOnLeftMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
-//            @Override
-//            public void onMenuOpened() {
-//                drawer.openDrawer(GravityCompat.START);
-//            }
-//
-//            @Override
-//            public void onMenuClosed() {
-//                drawer.closeDrawer(GravityCompat.START);
-//            }
-//        });
-//
+        mSearchView.setOnLeftMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
+            @Override
+            public void onMenuOpened() {
+                this.onMenuClosed();
+                parentActivity.drawer.openDrawer(GravityCompat.START);
+
+            }
+
+            @Override
+            public void onMenuClosed() {
+
+            }
+        });
+
         return rootView;
     }
 
@@ -133,4 +150,6 @@ public class MainFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

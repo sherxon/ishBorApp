@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Activity.MainActivity;
+
+import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.MainFragment;
 import uz.ishborApp.Jobs.CategoryListJob;
 import uz.ishborApp.Jobs.SearchTagJob;
@@ -48,4 +50,7 @@ public interface AppComponent {
     void inject(SearchVacancyByTagJob searchVacancyByTagJob);
 
     void inject(MainFragment mainFragment);
+
+    void inject(CategoryFragment categoryFragment);
+
 }

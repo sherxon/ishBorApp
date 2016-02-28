@@ -22,23 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.CategoryActivity"
-            android:label="@string/title_activity_vacancy_category"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".Activity.VacancyActivity"
-            android:label="@string/title_activity_vacancy"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="966907830061255" />
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Activity.AuthActivity" >
-        </activity>
     </application>
 
 </manifest>

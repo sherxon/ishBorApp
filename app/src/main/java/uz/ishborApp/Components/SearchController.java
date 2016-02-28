@@ -1,18 +1,9 @@
 package uz.ishborApp.Components;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.path.android.jobqueue.JobManager;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,13 +31,13 @@ public class SearchController {
     public SearchController() {
     }
 
-    public List<VacancySearchSuggestion> getSearchHistory(int count) {
-        List<VacancySearchSuggestion> suggestionList= new ArrayList<>();
+    public List<TagSuggestionItem> getSearchHistory(int count) {
+        List<TagSuggestionItem> suggestionList= new ArrayList<>();
         List<Search> searchList=daoMaster.newSession().getSearchDao()
                 .queryBuilder().orderDesc(SearchDao.Properties.Created)
                 .limit(4).build().list();
         for (Search search : searchList) {
-            suggestionList.add(new VacancySearchSuggestion(search, true));
+            suggestionList.add(new TagSuggestionItem(search, true));
         }
         return suggestionList;
     }
