@@ -24,7 +24,7 @@ public class CategoryListJob extends BaseJob{
 
 
     public CategoryListJob() {
-        super(new Params(900).persist());
+        super(new Params(900));
     }
 
     @Override

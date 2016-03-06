@@ -91,9 +91,12 @@ public class CategoryFragment extends Fragment {
 
         if(((MainActivity)getActivity()).getSupportActionBar()!=null)
             ((MainActivity)getActivity()).getSupportActionBar().show();
+        if(recList.getAdapter()==null || recList.getAdapter().getItemCount()==0) {
+            // TODO: 3/6/16 add loader
+            jobManager.addJob(new CategoryListJob());
+            jobManager.start();
+        }
 
-        jobManager.addJob(new CategoryListJob());
-        jobManager.start();
         return rootView;
     }
 

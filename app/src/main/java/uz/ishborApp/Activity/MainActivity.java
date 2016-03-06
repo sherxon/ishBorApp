@@ -1,9 +1,9 @@
 package uz.ishborApp.Activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -45,10 +45,11 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
     public void onEventMainThread(Category category){
 
         Fragment fragment=new VacancyListFragment();
-        android.app.FragmentManager manager=getFragmentManager();
+        FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.add(R.id._fragment, fragment).addToBackStack("vacancyList");
         transaction.commit();
+        // TODO: 3/6/16 add loader
         jobManager.addJob(new VacancyListJob(category.getId()));
         jobManager.start();
 

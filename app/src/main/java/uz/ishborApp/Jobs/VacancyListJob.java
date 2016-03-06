@@ -26,7 +26,7 @@ public class VacancyListJob extends BaseJob{
 
 
     public VacancyListJob(Long categoryId) {
-        super(new Params(900).persist());
+        super(new Params(900).requireNetwork());
         this.categoryId=categoryId;
     }
 
@@ -70,11 +70,7 @@ public class VacancyListJob extends BaseJob{
         Type vacancyType=new TypeToken<List<Vacancy>>(){}.getType();
 
         List<Vacancy> vacancyList= null;
-        try {
-            vacancyList=gson.fromJson(result, vacancyType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        vacancyList=gson.fromJson(result, vacancyType);
         if(vacancyList==null)vacancyList= Collections.emptyList();
 
         EventBus.getDefault().post(new VacancyListEvent(vacancyList, VacancyListFragment.class));

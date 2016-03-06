@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import uz.ishborApp.Activity.MainActivity;
+import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Adaptars.VacancyAdapter;
 import uz.ishborApp.Components.SearchController;
 import uz.ishborApp.Components.TagSuggestionItem;
@@ -57,13 +57,11 @@ public class MainFragment extends Fragment {
     @Inject
     SearchController searchController;
 
-   static private MainActivity parentActivity;
+   static private BaseDrawerActivity parentActivity;
     public MainFragment() {
     }
-    public static Fragment newInstance(MainActivity mainActivity) {
-        parentActivity=mainActivity;
-        MainFragment mainFragment=new MainFragment();
-        return mainFragment;
+    public static Fragment newInstance() {
+        return new MainFragment();
     }
 
     @Override
@@ -76,7 +74,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_main, container, false);
-
+        parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, rootView);
 
         recyclerView.setHasFixedSize(true);
@@ -96,7 +94,6 @@ public class MainFragment extends Fragment {
                     mSearchView.clearSuggestions();
                 } else {
                     mSearchView.showProgress();
-                    //setSearchResultListFragment();
                     jobManager.addJob(new SearchTagJob(newQuery));
                     jobManager.start();
                 }
@@ -105,14 +102,8 @@ public class MainFragment extends Fragment {
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
             public void onFocus() {
-                //parentActivity.toolbar.animate().translationY(-parentActivity.toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
-                //parentActivity.appBar.animate().translationY(-parentActivity.appBar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
-                //parentActivity.toolbar.setVisibility(View.GONE);
-                //parentActivity.getSupportActionBar().hide();
-
                 List<TagSuggestionItem> suggestionList = searchController.getSearchHistory(4);
                 mSearchView.swapSuggestions(suggestionList);
-
             }
 
             @Override
@@ -125,16 +116,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
                 Search search = ((TagSuggestionItem) searchSuggestion).getSearch();
-                parentActivity.getSupportFragmentManager().beginTransaction().
-                        replace(R.id.fragmentSearchResult, SearchResultListFragment.newInstance()).
-                        commit();
-
                 jobManager.addJob(new SearchVacancyByTagJob(search.getWord()));
                 jobManager.start();
                 EventBus.getDefault().post(new TagSuggestionClickedEvent(search));
                 mSearchView.setSearchHint(search.getWord());
-                //FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60);
-                //mSearchView.setLayoutParams(layoutParams);
             }
 
             @Override

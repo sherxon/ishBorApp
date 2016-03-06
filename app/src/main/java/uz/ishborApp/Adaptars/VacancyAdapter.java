@@ -33,7 +33,7 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
     public void onBindViewHolder(VacancyViewHolder holder, int position) {
         Vacancy vacancy=vacancyList.get(position);
         holder.position.setText(vacancy.getPosition());
-        holder.comapnyName.setText(String.valueOf(vacancy.getCompanyName()));
+        holder.companyName.setText(String.valueOf(vacancy.getCompanyName()));
         holder.date.setText(String.valueOf(vacancy.getStDate()));
     }
 
@@ -44,18 +44,19 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
 
     public static class VacancyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected TextView position;
-        protected TextView comapnyName;
+        protected TextView companyName;
         protected TextView date;
         private List<Vacancy> vacancyList;
 
         public VacancyViewHolder(View itemView,  List<Vacancy> vacancyList) {
             super(itemView);
             position= (TextView) itemView.findViewById(R.id.st_position);
-            comapnyName= (TextView) itemView.findViewById(R.id.st_company);
+            companyName = (TextView) itemView.findViewById(R.id.st_company);
             date= (TextView) itemView.findViewById(R.id.st_Date);
             this.vacancyList=vacancyList;
             itemView.setOnClickListener(this);
         }
+        //9111239 90 bek
         @Override
         public void onClick(View view) {
                 EventBus.getDefault().post(vacancyList.get(getLayoutPosition()));

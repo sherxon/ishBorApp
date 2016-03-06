@@ -44,10 +44,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
 
         MyApplication.get(this).getAppComponent().inject(this);
 
-//        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
     }
 
     @Override
@@ -77,7 +73,7 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
         if(id==R.id.nav_search_vacancy ){
             getSupportFragmentManager().beginTransaction().
                     addToBackStack("search").
-                    replace(R.id._fragment, new MainFragment())
+                    replace(R.id._fragment, MainFragment.newInstance())
                     .commit();
         }else if(id==R.id.nav_category){
             getSupportFragmentManager().beginTransaction().

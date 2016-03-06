@@ -1,9 +1,7 @@
 package uz.ishborApp.Fragments;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +13,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Adaptars.VacancyAdapter;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.R;
-import uz.ishborApp.Adaptars.VacancyAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

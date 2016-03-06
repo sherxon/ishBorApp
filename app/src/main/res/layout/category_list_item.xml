@@ -14,13 +14,13 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="contact det"
+            android:text="contact det uweflibf weorufb4kh fweuyrbu4h ry qweiuf3oh f4ouf43uoh 4oyu 3o4u 34ou"
             android:gravity="center_vertical"
-            android:textColor="@color/grey"
-            android:textSize="24dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
-            android:foregroundGravity="center_vertical"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:maxLines="2"
+            android:ellipsize="end"
             />
 
     </RelativeLayout>
