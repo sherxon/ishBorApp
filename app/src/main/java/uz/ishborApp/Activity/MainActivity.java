@@ -54,6 +54,7 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();

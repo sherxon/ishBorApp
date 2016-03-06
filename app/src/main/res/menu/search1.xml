@@ -1,7 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="bir" android:id="@+id/menu1" app:showAsAction="always"/>
-    <item android:title="iki" android:id="@+id/menu2"  app:showAsAction="ifRoom"/>
-    <item android:title="uch" android:id="@+id/menu3"  app:showAsAction="never"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/action_voice_rec"
+        android:title="action voice rec"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_keyboard_voice_black_24dp"/>
+    <item android:id="@+id/action_location"
+        android:title="@string/action_settings"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_my_location_black_24dp"
+        />
+    <item android:id="@+id/action_location1"
+        android:title="@string/action_settings"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_my_location_black_24dp"
+        />
+    <item android:id="@+id/action_location2"
+        android:title="@string/action_settings"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_my_location_black_24dp"
+        />
 </menu>
