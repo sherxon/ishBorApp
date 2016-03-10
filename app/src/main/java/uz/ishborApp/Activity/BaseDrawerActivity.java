@@ -24,13 +24,14 @@ import uz.ishborApp.R;
  */
 public  class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.toolbar)
+   @Bind(R.id.toolbar)
    public Toolbar toolbar;
 
-    @Bind(R.id.appBar)
+   @Bind(R.id.appBar)
    public AppBarLayout appBar;
 
-    @Bind(R.id.drawer_layout)
+
+   @Bind(R.id.drawer_layout)
    public DrawerLayout drawer;
 
     @Inject

@@ -29,7 +29,7 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
         homeAsUpByBackStack();
         if(savedInstanceState==null)
             getSupportFragmentManager().beginTransaction().
-                    replace(R.id._fragment, MainFragment.newInstance(this)).
+                    replace(R.id._fragment, MainFragment.newInstance()).
                     commit();
 
         MyApplication.get(this).getAppComponent().inject(this);
