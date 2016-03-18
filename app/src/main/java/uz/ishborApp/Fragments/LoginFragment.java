@@ -11,8 +11,6 @@ import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
-import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
-import com.github.gorbin.asne.linkedin.LinkedInSocialNetwork;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,9 +118,7 @@ public class LoginFragment extends Fragment implements SocialNetworkManager.OnIn
                 case FacebookSocialNetwork.ID:
                     facebook.setText("Show Facebook profile");
                     break;
-                case GooglePlusSocialNetwork.ID:
-                    googleplus.setText("Show GooglePlus profile");
-                    break;
+
             }
         }
 
@@ -144,12 +140,7 @@ public class LoginFragment extends Fragment implements SocialNetworkManager.OnIn
                 case R.id.facebook:
                     networkId = FacebookSocialNetwork.ID;
                     break;
-                case R.id.linkedin:
-                    networkId = LinkedInSocialNetwork.ID;
-                    break;
-                case R.id.googleplus:
-                    networkId = GooglePlusSocialNetwork.ID;
-                    break;
+
             }
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
             if(!socialNetwork.isConnected()) {

@@ -1,53 +1,46 @@
 package uz.ishborApp.Fragments;
 
-import android.app.Activity;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.TextView;
+import android.webkit.WebViewClient;
+
+import com.path.android.jobqueue.JobManager;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import uz.ishborApp.Entity.Vacancy;
+import uz.ishborApp.Activity.BaseDrawerActivity;
+import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link VacancyDesc.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link VacancyDesc#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class VacancyDesc extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
 
     @Bind(R.id.wvJobDesc)
     WebView jobDesc;
 
-    //private Vacancy vacancy;
+    @Inject
+    JobManager jobManager;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment VacancyDesc.
-     */
+    BaseDrawerActivity parentActivity;
+
+
     // TODO: Rename and change types and number of parameters
     public static VacancyDesc newInstance(String url) {
         VacancyDesc fragment = new VacancyDesc();
@@ -66,9 +59,8 @@ public class VacancyDesc extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        MyApplication.get(getActivity()).getAppComponent().inject(this);
     }
 
     @Override
@@ -76,49 +68,53 @@ public class VacancyDesc extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_vacancy_desc, container, false);
+
+        parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, view);
-        jobDesc.getSettings().setJavaScriptEnabled(true);
+
+        WebSettings ws=jobDesc.getSettings();
+        ws.setJavaScriptEnabled(true);
+        jobDesc.addJavascriptInterface(new Object(){
+            @JavascriptInterface
+            public void performClick(String strl) {
+                // TODO: 3/18/16 get id and save to favourites
+                System.out.println(strl);
+                Long vacId =Long.valueOf(strl);
+
+
+            }
+        }, "ok");
         jobDesc.loadUrl(getArguments().getString("url"));
+        jobDesc.setWebViewClient(new MyWebViewClient());
+
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onVacancyDescFragmentInteraction(uri);
+
+    private class MyWebViewClient extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+             view.loadUrl(url);
+             return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            parentActivity.showProgress();
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            parentActivity.hideProgress();
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+            parentActivity.hideProgress();
+            // TODO: 3/18/16 add custom error message
         }
     }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onVacancyDescFragmentInteraction(Uri uri);
-    }
-
 }

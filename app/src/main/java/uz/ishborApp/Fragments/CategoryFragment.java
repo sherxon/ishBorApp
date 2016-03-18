@@ -1,7 +1,6 @@
 package uz.ishborApp.Fragments;
 
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Activity.MainActivity;
 import uz.ishborApp.Adaptars.CategoryAdapter;
 import uz.ishborApp.Events.CategoryListEvent;
@@ -37,6 +37,8 @@ public class CategoryFragment extends Fragment {
 
     @Inject
     JobManager jobManager;
+
+    BaseDrawerActivity parentActivity;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -76,6 +78,7 @@ public class CategoryFragment extends Fragment {
     }
     public void onEventMainThread(CategoryListEvent categoryListEvent){
         CategoryAdapter categoryAdapter=new CategoryAdapter(categoryListEvent.getCategoryList());
+        parentActivity.hideProgress();
         recList.setAdapter(categoryAdapter);
     }
 
@@ -83,21 +86,28 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_category, container, false);
+        parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, rootView);
         recList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
 
-        if(((MainActivity)getActivity()).getSupportActionBar()!=null)
-            ((MainActivity)getActivity()).getSupportActionBar().show();
-        if(recList.getAdapter()==null || recList.getAdapter().getItemCount()==0) {
-            // TODO: 3/6/16 add loader
-            jobManager.addJob(new CategoryListJob());
-            jobManager.start();
+        if(((MainActivity)getActivity()).getSupportActionBar()!=null) {
+            ((MainActivity) getActivity()).getSupportActionBar().show();
         }
 
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        parentActivity.showProgress();
+        if(recList.getAdapter()==null || recList.getAdapter().getItemCount()==0) {
+            // TODO: 3/6/16 add loader
+            jobManager.addJob(new CategoryListJob());
+            jobManager.start();
+        }
+    }
 }

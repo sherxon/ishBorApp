@@ -56,7 +56,6 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
             this.vacancyList=vacancyList;
             itemView.setOnClickListener(this);
         }
-        //9111239 90 bek
         @Override
         public void onClick(View view) {
                 EventBus.getDefault().post(vacancyList.get(getLayoutPosition()));

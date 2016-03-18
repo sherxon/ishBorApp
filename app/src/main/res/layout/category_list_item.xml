@@ -5,8 +5,7 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    card_view:cardCornerRadius="4dp"
-    android:layout_margin="5dp">
+    card_view:cardCornerRadius="4dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,9 +18,15 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
+            android:paddingBottom="10dp"
             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/title"
+            android:background="@color/colorPrimaryDark" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

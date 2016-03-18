@@ -9,8 +9,6 @@
             />
         <item android:id="@+id/nav_category" android:icon="@android:drawable/ic_dialog_dialer"
             android:title="Категорий" />
-        <item android:id="@+id/nav_news" android:icon="@android:drawable/ic_menu_manage"
-            android:title="Новости" />
         <item android:id="@+id/nav_favourites" android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="Избранное" />
     </group>
@@ -19,8 +17,6 @@
             android:title="Профиль" />
         <item android:id="@+id/nav_login" android:icon="@android:drawable/ic_lock_lock"
             android:title="Логин" />
-        <item android:id="@+id/nav_register" android:icon="@android:drawable/ic_input_add"
-            android:title="Зарегистрироваться" />
     </group>
     <group android:checkableBehavior="single" android:id="@+id/three">
         <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_send"

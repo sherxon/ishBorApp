@@ -13,6 +13,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Adaptars.VacancyAdapter;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.VacancyListEvent;
@@ -31,6 +32,9 @@ public class VacancyListFragment extends Fragment {
     RecyclerView recList;
 
     List<Vacancy> data;
+
+    BaseDrawerActivity parentActivity;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -74,7 +78,9 @@ public class VacancyListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_vacancy_list, container, false);
+        parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, view);
+        parentActivity.showProgress();
         recList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -88,6 +94,7 @@ public class VacancyListFragment extends Fragment {
         data=vacancyList.getVacancyList();
         if(recList!=null){
             VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList());
+            parentActivity.hideProgress();
             recList.setAdapter(vacancyAdapter);
         }
     }

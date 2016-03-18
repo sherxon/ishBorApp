@@ -54,7 +54,6 @@ public class CategoryListJob extends BaseJob{
         Request request= new Request.Builder().url(Globals.LOCAL_CATEGORY_URL).build();
         Response response = okHttpClient.newCall(request).execute();
         String result=response.body().string();
-
         parseToCategoryList(result);
     }
 

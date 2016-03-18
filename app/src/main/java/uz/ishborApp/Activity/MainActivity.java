@@ -9,8 +9,11 @@ import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Category;
+import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Fragments.MainFragment;
+import uz.ishborApp.Fragments.VacancyDesc;
 import uz.ishborApp.Fragments.VacancyListFragment;
 import uz.ishborApp.Jobs.VacancyListJob;
 import uz.ishborApp.MyApplication;
@@ -33,6 +36,7 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
                     commit();
 
         MyApplication.get(this).getAppComponent().inject(this);
+
     }
 
 //    private void setSearchResultListFragment() {
@@ -41,18 +45,26 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
 //        transaction.replace(R.id.fragmentSearchResult, fragment);
 //        transaction.commit();
 //    }
-
+    /*On category list item clicked*/
     public void onEventMainThread(Category category){
-
         Fragment fragment=new VacancyListFragment();
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
-        transaction.add(R.id._fragment, fragment).addToBackStack("vacancyList");
+        transaction.replace(R.id._fragment, fragment).addToBackStack("vacancyList");
         transaction.commit();
-        // TODO: 3/6/16 add loader
         jobManager.addJob(new VacancyListJob(category.getId()));
         jobManager.start();
+    }
 
+    /*On vacancy list item clicked*/
+    public void onEventMainThread(Vacancy vacancy){
+        Fragment fragment=VacancyDesc.newInstance(Globals.LOCAL_JOBDESC+vacancy.getId());
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.replace(R.id._fragment, fragment).addToBackStack("vacancyDesc");
+        transaction.commit();
+        jobManager.addJob(new VacancyListJob(vacancy.getId()));
+        jobManager.start();
     }
 
 

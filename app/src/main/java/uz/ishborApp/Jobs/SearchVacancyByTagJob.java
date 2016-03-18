@@ -16,6 +16,7 @@ import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.Entity.Search;
+import uz.ishborApp.Entity.SearchDao;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.Fragments.MainFragment;
@@ -37,10 +38,13 @@ public class SearchVacancyByTagJob extends BaseJob {
 
     @Override
     public void onAdded() {
-        Search search= new Search();
-        search.setCreated(new Date());
+
+        SearchDao searchDao=daoMaster.newSession().getSearchDao();
+        Search search= searchDao.queryBuilder().where(SearchDao.Properties.Word.eq(word)).build().unique();
+        if(search==null)search= new Search();
         search.setWord(word);
-        daoMaster.newSession().getSearchDao().insertOrReplace(search);
+        search.setCreated(new Date());
+        searchDao.insertOrReplace(search);
     }
 
     @Override

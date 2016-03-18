@@ -11,7 +11,10 @@ import uz.ishborApp.Activity.MainActivity;
 
 import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.MainFragment;
+import uz.ishborApp.Fragments.VacancyDesc;
 import uz.ishborApp.Jobs.CategoryListJob;
+import uz.ishborApp.Jobs.LatestVacancyListJob;
+import uz.ishborApp.Jobs.SaveVacancyJob;
 import uz.ishborApp.Jobs.SearchTagJob;
 import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.Jobs.VacancyListJob;
@@ -53,4 +56,9 @@ public interface AppComponent {
 
     void inject(CategoryFragment categoryFragment);
 
+    void inject(LatestVacancyListJob latestVacancyListJob);
+
+    void inject(VacancyDesc vacancyDesc);
+
+    void inject(SaveVacancyJob saveVacancyJob);
 }

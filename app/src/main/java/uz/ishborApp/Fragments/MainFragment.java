@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
@@ -34,6 +35,7 @@ import uz.ishborApp.Entity.Search;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
 import uz.ishborApp.Events.TagSuggestionClickedEvent;
 import uz.ishborApp.Events.VacancyListEvent;
+import uz.ishborApp.Jobs.LatestVacancyListJob;
 import uz.ishborApp.Jobs.SearchTagJob;
 import uz.ishborApp.Jobs.SearchVacancyByTagJob;
 import uz.ishborApp.MyApplication;
@@ -50,6 +52,8 @@ public class MainFragment extends Fragment {
     @Bind(R.id.recycleSearchResult)
     RecyclerView recyclerView;
 
+    @Bind(R.id.txtSearchListInfo)
+    TextView txtSearchListInfo;
 
     @Inject
     JobManager jobManager;
@@ -70,12 +74,15 @@ public class MainFragment extends Fragment {
         MyApplication.get(getActivity()).getAppComponent().inject(this);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView= inflater.inflate(R.layout.fragment_main, container, false);
         parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, rootView);
+
+        parentActivity.showProgress();
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm= new LinearLayoutManager(getActivity());
@@ -120,6 +127,7 @@ public class MainFragment extends Fragment {
                 jobManager.start();
                 EventBus.getDefault().post(new TagSuggestionClickedEvent(search));
                 mSearchView.setSearchHint(search.getWord());
+                txtSearchListInfo.setText("Search Results");
             }
 
             @Override
@@ -185,9 +193,17 @@ public class MainFragment extends Fragment {
     public void onEventMainThread(VacancyListEvent vacancyListEvent){
         if(!vacancyListEvent.getTargetClass().equals(MainFragment.class))return;
         VacancyAdapter vacancyAdapter= new VacancyAdapter(vacancyListEvent.getVacancyList());
+        parentActivity.hideProgress();
         recyclerView.setAdapter(vacancyAdapter);
+
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        jobManager.addJob(new LatestVacancyListJob());
+        jobManager.start();
+    }
 
     @Override
     public void onStart() {
