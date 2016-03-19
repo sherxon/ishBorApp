@@ -50,6 +50,7 @@ public class LatestVacancyListJob extends BaseJob{
 
     @Override
     protected void onCancel() {
-
+        EventBus.getDefault().post(false);
     }
+
 }

@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.path.android.jobqueue.JobManager;
@@ -14,9 +15,11 @@ import com.path.android.jobqueue.JobManager;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.LoginFragment;
 import uz.ishborApp.Fragments.MainFragment;
+import uz.ishborApp.Fragments.VacancyListFragment;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
@@ -48,10 +51,13 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     }
 
     public void showProgress(){
+        progressView.setVisibility(View.VISIBLE);
         progressView.startAnimation();
+
     }
     public void hideProgress(){
         progressView.stopAnimation();
+        progressView.setVisibility(View.GONE);
     }
 
     @Override
@@ -92,6 +98,12 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
             getSupportFragmentManager().beginTransaction().
                     //addToBackStack("login").
                     replace(R.id._fragment, LoginFragment.newInstance())
+                    .commit();
+        }
+        else if(id==R.id.nav_favourites){
+            getSupportFragmentManager().beginTransaction().
+                    //addToBackStack("login").
+                    replace(R.id._fragment, VacancyListFragment.newInstance(Globals.FAVOURITES, 0l))
                     .commit();
         }
         drawer.closeDrawer(GravityCompat.START);

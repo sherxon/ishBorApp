@@ -68,9 +68,8 @@ public class SearchVacancyByTagJob extends BaseJob {
 
     @Override
     protected void onCancel() {
-
+        EventBus.getDefault().post(false);
     }
-
     @Override
     protected int getRetryLimit() {
         return 5;

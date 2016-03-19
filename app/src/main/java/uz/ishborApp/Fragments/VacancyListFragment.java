@@ -8,21 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import com.path.android.jobqueue.JobManager;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Adaptars.VacancyAdapter;
-import uz.ishborApp.Entity.Vacancy;
+import uz.ishborApp.Entity.DaoMaster;
+import uz.ishborApp.Events.FavouriteJobEvent;
 import uz.ishborApp.Events.VacancyListEvent;
+import uz.ishborApp.Jobs.VacancyListJob;
+import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
+ * Activities that contain this fragment must implement the to handle interaction events.
  * Use the {@link VacancyListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -31,20 +35,28 @@ public class VacancyListFragment extends Fragment {
     @Bind(R.id.cardListVacancy)
     RecyclerView recList;
 
-    List<Vacancy> data;
+    @Inject
+    JobManager jobManager;
+
+    @Inject
+    DaoMaster daoMaster;
 
     BaseDrawerActivity parentActivity;
 
+    private String type;
+    private Long categoryId;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @return A new instance of fragment VacancyListFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static VacancyListFragment newInstance(List<Vacancy> list) {
+    public static VacancyListFragment newInstance(String type, Long categoryId) {
         VacancyListFragment fragment = new VacancyListFragment();
-        //fragment.onEvent(list);
+        Bundle args = new Bundle();
+        args.putString("type", type);
+        args.putLong("categoryId", categoryId);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -58,7 +70,10 @@ public class VacancyListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            type = getArguments().getString("type");
+            categoryId = getArguments().getLong("categoryId");
         }
+        MyApplication.get(getActivity()).getAppComponent().inject(this);
     }
 
     @Override
@@ -78,37 +93,36 @@ public class VacancyListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_vacancy_list, container, false);
+
         parentActivity= (BaseDrawerActivity) getActivity();
         ButterKnife.bind(this, view);
         parentActivity.showProgress();
         recList.setHasFixedSize(true);
+
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(linearLayoutManager);
-        if(data!=null) recList.setAdapter(new VacancyAdapter(data));
+
         return view;
     }
 
-    public void onEventMainThread(VacancyListEvent vacancyList){
-        if(!vacancyList.getTargetClass().equals(VacancyListFragment.class))return;
-        data=vacancyList.getVacancyList();
-        if(recList!=null){
-            VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList());
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if(categoryId!=0) jobManager.addJob(new VacancyListJob(categoryId)); // when category is clicked
+        else{
+            recList.setAdapter(new VacancyAdapter(daoMaster.newSession().getVacancyDao().loadAll(),
+                    FavouriteJobEvent.ACTION.DELETE)); // when favourites opened
             parentActivity.hideProgress();
-            recList.setAdapter(vacancyAdapter);
         }
     }
+    // when category is clicked the results came here
+    public void onEventMainThread(VacancyListEvent vacancyList){
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+        if(!vacancyList.getTargetClass().equals(VacancyListFragment.class)) return;
 
-
+        VacancyAdapter vacancyAdapter=new VacancyAdapter(vacancyList.getVacancyList(), FavouriteJobEvent.ACTION.SAVE);
+        recList.setAdapter(vacancyAdapter);
+        parentActivity.hideProgress();
+    }
 }

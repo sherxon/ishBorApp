@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Vacancy;
-import uz.ishborApp.Entity.VacancyDao;
 import uz.ishborApp.Events.VacancyListEvent;
 import uz.ishborApp.Fragments.VacancyListFragment;
 
@@ -75,15 +75,15 @@ public class VacancyListJob extends BaseJob{
 
         EventBus.getDefault().post(new VacancyListEvent(vacancyList, VacancyListFragment.class));
 
-        VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
-        if(!vacancyList.isEmpty())
-            vacancyDao.queryBuilder().where(VacancyDao.Properties.CategoryId.eq(vacancyList.get(0).getCategoryId()))
-                    .buildDelete().forCurrentThread();
-        vacancyDao.insertOrReplaceInTx(vacancyList);
+//        VacancyDao vacancyDao=daoMaster.newSession().getVacancyDao();
+//        if(!vacancyList.isEmpty())
+//            vacancyDao.queryBuilder().where(VacancyDao.Properties.CategoryId.eq(vacancyList.get(0).getCategoryId()))
+//                    .buildDelete().forCurrentThread();
+//        vacancyDao.insertOrReplaceInTx(vacancyList);
     }
 
     @Override
     protected void onCancel() {
-
+        EventBus.getDefault().post(false);
     }
 }

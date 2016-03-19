@@ -32,6 +32,7 @@ import uz.ishborApp.Adaptars.VacancyAdapter;
 import uz.ishborApp.Components.SearchController;
 import uz.ishborApp.Components.TagSuggestionItem;
 import uz.ishborApp.Entity.Search;
+import uz.ishborApp.Events.FavouriteJobEvent;
 import uz.ishborApp.Events.SearchSuggestionItemResultEvent;
 import uz.ishborApp.Events.TagSuggestionClickedEvent;
 import uz.ishborApp.Events.VacancyListEvent;
@@ -192,10 +193,9 @@ public class MainFragment extends Fragment {
 
     public void onEventMainThread(VacancyListEvent vacancyListEvent){
         if(!vacancyListEvent.getTargetClass().equals(MainFragment.class))return;
-        VacancyAdapter vacancyAdapter= new VacancyAdapter(vacancyListEvent.getVacancyList());
+        VacancyAdapter vacancyAdapter= new VacancyAdapter(vacancyListEvent.getVacancyList(), FavouriteJobEvent.ACTION.NOTHING);
         parentActivity.hideProgress();
         recyclerView.setAdapter(vacancyAdapter);
-
     }
 
     @Override
