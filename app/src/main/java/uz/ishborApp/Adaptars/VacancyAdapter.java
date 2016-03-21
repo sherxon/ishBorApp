@@ -1,5 +1,6 @@
 package uz.ishborApp.Adaptars;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class VacancyAdapter extends RecyclerView.Adapter<VacancyAdapter.VacancyV
                         public void onClick(View view) {
                             Vacancy current = VacancyViewHolder.this.vacancyList.get(getLayoutPosition());
                             EventBus.getDefault().post(new FavouriteJobEvent(FavouriteJobEvent.ACTION.SAVE, current));
-
+                            Snackbar.make(view, "Added to favourites", Snackbar.LENGTH_LONG);
                         }
                     });
                     break;

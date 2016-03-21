@@ -74,4 +74,9 @@ public class CategoryListJob extends BaseJob{
     protected void onCancel() {
         EventBus.getDefault().post(false);
     }
+
+    @Override
+    protected int getRetryLimit() {
+        return 5;
+    }
 }

@@ -39,5 +39,6 @@ dependencies {
     compile 'com.birbit:android-priority-jobqueue:1.3.5'
     compile 'com.github.asne:asne-facebook:0.3.3'
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
 }

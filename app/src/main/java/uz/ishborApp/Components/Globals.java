@@ -5,7 +5,7 @@ package uz.ishborApp.Components;
  */
 public class Globals {
 
-    public final static String LOCAL_HOST="http://192.168.0.108:8080/";
+    public final static String LOCAL_HOST="http://192.168.1.103:8080/";
     public final static String LOCAL_CATEGORY_URL=LOCAL_HOST+"category/";
     public final static String LOCAL_SEARCH_URL=LOCAL_HOST+"search/tag/";
     public final static String LOCAL_VACANCY_URL=LOCAL_HOST+"vacancy/list/";

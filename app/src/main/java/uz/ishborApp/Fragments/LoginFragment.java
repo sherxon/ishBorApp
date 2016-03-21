@@ -1,171 +1,142 @@
 package uz.ishborApp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-import com.github.gorbin.asne.core.SocialNetwork;
-import com.github.gorbin.asne.core.SocialNetworkManager;
-import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
-import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
-import java.util.ArrayList;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
-import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
-import uz.ishborApp.Components.Globals;
 import uz.ishborApp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+public class LoginFragment extends Fragment {
 
-public class LoginFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener,
-        OnLoginCompleteListener{
+    @Bind(R.id.imageView) ImageView profileImage;
 
-    public static SocialNetworkManager mSocialNetworkManager;
+    @Bind(R.id.name) TextView profileName;
 
-    @Bind(R.id.facebook)
-    Button facebook;
+    @Bind(R.id.id) TextView profileId;
 
-    @Bind(R.id.googleplus)
-    Button googleplus;
+    @Bind(R.id.premail) TextView profileEmail;
 
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
+    @Bind(R.id.appliedJob) RecyclerView appliedJobList;
 
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private CallbackManager callbackManager;
+
+    @Bind(R.id.login_button) public LoginButton loginButton;
+
+    private ProfileTracker mProfileTracker;
+
+    private String id, birthday, firstName, lastName, gender, name, email;
+    private boolean verified;
 
     public LoginFragment() {
-        // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        }
-    }
-
-    public void onEventMainThread(LoginFragment loginFragment){
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView= inflater.inflate(R.layout.fragment_login, container, false);
+        final View rootView= inflater.inflate(R.layout.content_login, container, false);
         ButterKnife.bind(this, rootView);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        loginButton.setFragment(this);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
 
-        facebook.setOnClickListener(loginClick);
-        googleplus.setOnClickListener(loginClick);
-
-        ArrayList<String> fbScope = new ArrayList<String>();
-        fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
-
-        mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(Globals.SOCIAL_NETWORK_TAG);
-
-            if(mSocialNetworkManager==null){
-                mSocialNetworkManager= new SocialNetworkManager();
-
-                FacebookSocialNetwork fbNetwork=new FacebookSocialNetwork(this, fbScope);
-                mSocialNetworkManager.addSocialNetwork(fbNetwork);
-
-//                GooglePlusSocialNetwork gpNetwork = new GooglePlusSocialNetwork(this);
-//                mSocialNetworkManager.addSocialNetwork(gpNetwork);
-
-                getFragmentManager().beginTransaction().add(mSocialNetworkManager, Globals.SOCIAL_NETWORK_TAG).commit();
-                mSocialNetworkManager.setOnInitializationCompleteListener(this);
-            }else{
-                if(!mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()){
-                    List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
-                    for (SocialNetwork socialNetwork : socialNetworks) {
-                        socialNetwork.setOnLoginCompleteListener(this);
-                        initSocialNetwork(socialNetwork);
-                    }
-                }
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Profile profile = Profile.getCurrentProfile();
+                                if (Profile.getCurrentProfile() == null) {
+                                    mProfileTracker = new ProfileTracker() {
+                                        @Override
+                                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                            mProfileTracker.stopTracking();
+                                        }
+                                    };
+                                    mProfileTracker.startTracking();
+                                } else {
+                                    profile = Profile.getCurrentProfile();
+                                }
+                                // Application code
+                                object.toString();
+                                try {
+                                    if (object.has("birthday")) {
+                                        birthday = object.getString("birthday");
+                                    }
+                                    if (object.has("email")) {
+                                        email = object.getString("email");
+                                    }
+                                    if (object.has("name")) {
+                                        name = object.getString("name");
+                                    }
+                                    if (object.has("gender")) {
+                                        gender = object.getString("gender");
+                                    }
+                                    if (object.has("id")) {
+                                        id = object.getString("id");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Picasso.with(getActivity())
+                                .load(profile.getProfilePictureUri(500, 500))
+                                .into(profileImage);
+                                profileEmail.setText(email);
+                                profileName.setText(profile.getName());
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday,location");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
+
+            @Override
+            public void onCancel() {
+                System.out.println("saas");
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                System.out.println(e.toString());
+            }
+        });
         return rootView;
     }
 
-    private void initSocialNetwork(SocialNetwork socialNetwork) {
-        if(socialNetwork.isConnected()){
-            switch (socialNetwork.getID()){
-                case FacebookSocialNetwork.ID:
-                    facebook.setText("Show Facebook profile");
-                    break;
 
-            }
-        }
-
-    }
 
     @Override
-    public void onSocialNetworkManagerInitialized() {
-        for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
-            socialNetwork.setOnLoginCompleteListener(this);
-            initSocialNetwork(socialNetwork);
-        }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private View.OnClickListener loginClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int networkId = 0;
-            switch (view.getId()){
-                case R.id.facebook:
-                    networkId = FacebookSocialNetwork.ID;
-                    break;
 
-            }
-            SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
-            if(!socialNetwork.isConnected()) {
-                if(networkId != 0) {
-                    socialNetwork.requestLogin();
-                } else {
-                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                startProfile(socialNetwork.getID());
-            }
-        }
-    };
 
-    private void startProfile(int id) {
-        System.out.println(id);
-    }
-
-    @Override
-    public void onLoginSuccess(int socialNetworkID) {
-        startProfile(socialNetworkID);
-    }
-
-    @Override
-    public void onError(int socialNetworkID, String requestID, String errorMessage, Object data) {
-
-    }
 }

@@ -49,6 +49,11 @@ public class LatestVacancyListJob extends BaseJob{
     }
 
     @Override
+    protected int getRetryLimit() {
+        return 5;
+    }
+
+    @Override
     protected void onCancel() {
         EventBus.getDefault().post(false);
     }

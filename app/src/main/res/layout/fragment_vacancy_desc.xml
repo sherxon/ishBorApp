@@ -1,21 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="uz.ishborApp.Fragments.VacancyDesc"
+    android:orientation="vertical"
     >
 
-    <WebView
+    <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"-->
+        <!--android:src="@android:drawable/ic_dialog_email"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--/>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/wvJobDesc">
-    </WebView>
+        android:layout_height="180dp"
+        android:id="@+id/header"
+        android:background="@color/colorAccent"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sales Manager"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:id="@+id/header_position"
+            android:layout_above="@+id/header_company"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="12dp"
+            />
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nimadir LLC"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:id="@+id/header_company"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mirzo Ulugbek Tashkent"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:id="@+id/header_location"
+            android:layout_below="@+id/header_company"
+            android:layout_marginLeft="12dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/headerDate"
+            android:text="25.11.2014 sasas"
+            android:textSize="12sp"
+            android:layout_alignTop="@+id/header_location"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:lines="1"
+            />
 
-</RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Like"
+                android:id="@+id/btnLike"
+                android:drawableLeft="@drawable/like_24"
+                android:layout_weight="1"
+                android:layout_toRightOf="@+id/btnLike" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply "
+                android:id="@+id/btnApply"
+                android:layout_weight="10"
+                 />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_gray"
+            android:text="Description"
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_light"
+            android:id="@+id/view" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/jobdesc"
+            />
+    </LinearLayout>
+
+</LinearLayout>

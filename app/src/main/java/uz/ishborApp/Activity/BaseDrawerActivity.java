@@ -1,7 +1,11 @@
 package uz.ishborApp.Activity;
 
+import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.FacebookSdk;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.path.android.jobqueue.JobManager;
 
@@ -42,6 +47,12 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
 
    @Inject
    JobManager jobManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+    }
 
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
@@ -83,28 +94,25 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        //getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment=null;
         if(id==R.id.nav_search_vacancy ){
-            getSupportFragmentManager().beginTransaction().
-                    //addToBackStack("search").
-                    replace(R.id._fragment, MainFragment.newInstance())
-                    .commit();
+            fragment=MainFragment.newInstance();
         }else if(id==R.id.nav_category){
-            getSupportFragmentManager().beginTransaction().
-                    //addToBackStack("category").
-                    replace(R.id._fragment, CategoryFragment.newInstance())
-                    .commit();
+             fragment = CategoryFragment.newInstance();
         }else if(id==R.id.nav_login){
-            getSupportFragmentManager().beginTransaction().
-                    //addToBackStack("login").
-                    replace(R.id._fragment, LoginFragment.newInstance())
-                    .commit();
+//            Intent inten= new Intent(this, LoginFragment.class);
+//            startActivity(inten);
+            fragment=new LoginFragment();
+        } else if(id==R.id.nav_favourites){
+            fragment=VacancyListFragment.newInstance(Globals.FAVOURITES, 0l);
         }
-        else if(id==R.id.nav_favourites){
-            getSupportFragmentManager().beginTransaction().
-                    //addToBackStack("login").
-                    replace(R.id._fragment, VacancyListFragment.newInstance(Globals.FAVOURITES, 0l))
-                    .commit();
+
+        if(fragment!=null){
+            transaction.replace(R.id._fragment, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

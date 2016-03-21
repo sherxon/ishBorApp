@@ -46,12 +46,7 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
 
     }
 
-//    private void setSearchResultListFragment() {
-//        Fragment fragment= new SearchResultListFragment();
-//        FragmentTransaction transaction=getFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragmentSearchResult, fragment);
-//        transaction.commit();
-//    }
+
     /*On category list item clicked*/
     public void onEventMainThread(Category category){
         Fragment fragment=VacancyListFragment.newInstance(Globals.BY_CATEGORY, category.getId());
@@ -85,13 +80,14 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
 
     /*On vacancy list item clicked*/
     public void onEventMainThread(Vacancy vacancy){
-        Fragment fragment=VacancyDesc.newInstance(Globals.LOCAL_JOBDESC+vacancy.getId());
+        Fragment fragment=VacancyDesc.newInstance(vacancy);
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id._fragment, fragment).addToBackStack("vacancyDesc");
         transaction.commit();
         jobManager.addJob(new VacancyListJob(vacancy.getId()));
         jobManager.start();
+
     }
 
 
