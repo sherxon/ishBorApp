@@ -87,7 +87,6 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
         transaction.commit();
         jobManager.addJob(new VacancyListJob(vacancy.getId()));
         jobManager.start();
-
     }
 
 
@@ -132,15 +131,11 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
                  System.out.println("smth");
                  return  true;
              }
-
          }
-
-
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-
         return super.onOptionsItemSelected(item);
     }
 

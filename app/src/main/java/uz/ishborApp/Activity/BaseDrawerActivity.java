@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import uz.ishborApp.Components.Globals;
+import uz.ishborApp.Fragments.AboutFragment;
 import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.LoginFragment;
 import uz.ishborApp.Fragments.MainFragment;
@@ -102,11 +103,11 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
         }else if(id==R.id.nav_category){
              fragment = CategoryFragment.newInstance();
         }else if(id==R.id.nav_login){
-//            Intent inten= new Intent(this, LoginFragment.class);
-//            startActivity(inten);
             fragment=new LoginFragment();
         } else if(id==R.id.nav_favourites){
             fragment=VacancyListFragment.newInstance(Globals.FAVOURITES, 0l);
+        } else if(id==R.id.nav_send){
+            fragment= AboutFragment.newInstance();
         }
 
         if(fragment!=null){

@@ -88,6 +88,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card">
+
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/appliedJob"
             android:layout_width="match_parent"

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -48,8 +50,11 @@ public class LoginFragment extends Fragment {
 
     private ProfileTracker mProfileTracker;
 
+    private AccessTokenTracker accessTokenTracker;
+
     private String id, birthday, firstName, lastName, gender, name, email;
     private boolean verified;
+   private AccessToken accessToken;
 
     public LoginFragment() {
     }
@@ -59,62 +64,15 @@ public class LoginFragment extends Fragment {
 
         final View rootView= inflater.inflate(R.layout.content_login, container, false);
         ButterKnife.bind(this, rootView);
+
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         loginButton.setFragment(this);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                Profile profile = Profile.getCurrentProfile();
-                                if (Profile.getCurrentProfile() == null) {
-                                    mProfileTracker = new ProfileTracker() {
-                                        @Override
-                                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                                            mProfileTracker.stopTracking();
-                                        }
-                                    };
-                                    mProfileTracker.startTracking();
-                                } else {
-                                    profile = Profile.getCurrentProfile();
-                                }
-                                // Application code
-                                object.toString();
-                                try {
-                                    if (object.has("birthday")) {
-                                        birthday = object.getString("birthday");
-                                    }
-                                    if (object.has("email")) {
-                                        email = object.getString("email");
-                                    }
-                                    if (object.has("name")) {
-                                        name = object.getString("name");
-                                    }
-                                    if (object.has("gender")) {
-                                        gender = object.getString("gender");
-                                    }
-                                    if (object.has("id")) {
-                                        id = object.getString("id");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Picasso.with(getActivity())
-                                .load(profile.getProfilePictureUri(500, 500))
-                                .into(profileImage);
-                                profileEmail.setText(email);
-                                profileName.setText(profile.getName());
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday,location");
-                request.setParameters(parameters);
-                request.executeAsync();
+                accessToken = loginResult.getAccessToken();
+                getAllInfo(loginResult.getAccessToken());
             }
 
             @Override
@@ -127,9 +85,88 @@ public class LoginFragment extends Fragment {
                 System.out.println(e.toString());
             }
         });
+        accessTokenTracker =new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if(currentAccessToken==null){
+                    clearFields();
+                }
+            }
+        };
+
+        if(isLoggedIn()){
+            getAllInfo(AccessToken.getCurrentAccessToken());
+        }else{
+            profileImage.setImageDrawable(getResources().getDrawable(R.drawable.user_96));
+            profileEmail.setText("");
+            profileName.setText("");
+        }
+
         return rootView;
     }
 
+    private void clearFields() {
+        profileImage.setImageDrawable(getResources().getDrawable(R.drawable.user_96));
+        profileEmail.setText("");
+        profileName.setText("");
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+
+    private void getAllInfo(AccessToken  accessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Profile profile = Profile.getCurrentProfile();
+                        if (Profile.getCurrentProfile() == null) {
+                            mProfileTracker = new ProfileTracker() {
+                                @Override
+                                protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                    mProfileTracker.stopTracking();
+                                }
+                            };
+                            mProfileTracker.startTracking();
+                        } else {
+                            profile = Profile.getCurrentProfile();
+                        }
+                        // Application code
+                        object.toString();
+                        try {
+                            if (object.has("birthday")) {
+                                birthday = object.getString("birthday");
+                            }
+                            if (object.has("email")) {
+                                email = object.getString("email");
+                            }
+                            if (object.has("name")) {
+                                name = object.getString("name");
+                            }
+                            if (object.has("gender")) {
+                                gender = object.getString("gender");
+                            }
+                            if (object.has("id")) {
+                                id = object.getString("id");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Picasso.with(getActivity())
+                                .load(profile.getProfilePictureUri(500, 500))
+                                .into(profileImage);
+                        profileEmail.setText(email);
+                        profileName.setText(profile.getName());
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,gender,birthday,location");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
 
 
     @Override
