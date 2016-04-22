@@ -109,11 +109,17 @@ public class VacancyListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(categoryId!=0) jobManager.addJob(new VacancyListJob(categoryId)); // when category is clicked
-        else{
+        if(categoryId!=0) {
+            jobManager.addJob(new VacancyListJob(categoryId)); // when category is clicked
+            parentActivity.getSupportActionBar().show();
+            parentActivity.getSupportActionBar().setTitle(daoMaster.newSession().getCategoryDao().load(categoryId).getTitle());
+        } else{
             recList.setAdapter(new VacancyAdapter(daoMaster.newSession().getVacancyDao().loadAll(),
                     FavouriteJobEvent.ACTION.DELETE)); // when favourites opened
             parentActivity.hideProgress();
+            parentActivity.getSupportActionBar().show();
+            parentActivity.getSupportActionBar().setTitle(R.string.favourites);
+
         }
     }
     // when category is clicked the results came here

@@ -7,11 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.path.android.jobqueue.JobManager;
-
 import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -39,13 +36,7 @@ public class CategoryFragment extends Fragment {
     JobManager jobManager;
 
     BaseDrawerActivity parentActivity;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment CategoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static CategoryFragment newInstance() {
         CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
@@ -95,6 +86,7 @@ public class CategoryFragment extends Fragment {
 
         if(((MainActivity)getActivity()).getSupportActionBar()!=null) {
             ((MainActivity) getActivity()).getSupportActionBar().show();
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.categorybarname);
         }
 
         return rootView;

@@ -100,4 +100,19 @@
     <string name="hint">Qani Topchi...</string>
     <string name="facebook_app_id">966907830061255</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="latest_vacancies">Latest Vacancies</string>
+    <string name="searchVacancy">Поиск Вакансий</string>
+    <string name="category">Категорий</string>
+    <string name="favourites">Избранное</string>
+    <string name="profile">Профиль</string>
+    <string name="login">Логин</string>
+    <string name="about">О приложении</string>
+    <string name="btnApply">Apply</string>
+    <string name="btnlike">Like</string>
+    <string name="description">Description</string>
+    <string name="searchplace">Search...</string>
+    <string name="categorybarname">Categories</string>
+    <string name="loginfirst">Please Login to apply for Jobs</string>
+    <string name="applied">Applied</string>
+    <string name="liked">Liked</string>
 </resources>

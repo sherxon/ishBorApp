@@ -1,6 +1,5 @@
 package uz.ishborApp.Modules;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -29,6 +28,11 @@ public class DbModule {
     DaoMaster provideDaoMaster(SQLiteOpenHelper db){
         return new DaoMaster(db.getWritableDatabase());
     }
+    @Provides @Singleton
+    SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
+        return new DaoMaster.DevOpenHelper(context, "test-db", null);
+    }
+
     @Provides
     Context provideContext(){
         return myApplication.getApplicationContext();
@@ -39,10 +43,6 @@ public class DbModule {
         return myApplication;
     }
 
-    @Provides @Singleton
-    SQLiteOpenHelper provideSQLiteOpenHelper(Context context){
-        return new DaoMaster.DevOpenHelper(context, "test-db", null);
-    }
 
     @Provides @Singleton
     JobManager provideJobManager(MyApplication application){

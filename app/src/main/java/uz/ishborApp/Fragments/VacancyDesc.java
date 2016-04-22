@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.path.android.jobqueue.JobManager;
+
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -111,7 +115,7 @@ public class VacancyDesc extends Fragment {
         if(daoMaster.newSession().getVacancyDao().load(id)!=null){
             Drawable drawable=getContext().getResources().getDrawable(R.drawable.likefill_24);
             btnLike.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-            btnLike.setText("Liked");
+            btnLike.setText(R.string.liked);
             btnLike.setClickable(false);
         }
     }
@@ -131,6 +135,18 @@ public class VacancyDesc extends Fragment {
 
     @OnClick(R.id.btnApply)
     public void OnApplied(Button button){
-        System.out.println("OnApplied()");
+        if(AccessToken.getCurrentAccessToken()!=null){
+            new MaterialFilePicker()
+                    .withActivity(parentActivity)
+                    .withRequestCode(1)
+                    .withFilter(Pattern.compile(".*\\.pdf")) // Filtering files and directories by file name using regexp
+                    .withFilterDirectories(true) // Set directories filterable (false by default)
+                    .start();
+            EventBus.getDefault().post(parentActivity.getString(R.string.applied));
+        }else{
+            EventBus.getDefault().post(parentActivity.getString(R.string.loginfirst));
+        }
+
     }
+
 }

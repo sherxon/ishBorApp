@@ -3,10 +3,10 @@ package uz.ishborApp.Jobs;
 import com.google.gson.Gson;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
-import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Inject;
 
+import okhttp3.OkHttpClient;
 import uz.ishborApp.AppComponent;
 import uz.ishborApp.Entity.DaoMaster;
 

@@ -56,24 +56,36 @@ public class MainFragment extends Fragment {
     @Bind(R.id.txtSearchListInfo)
     TextView txtSearchListInfo;
 
-    @Inject
-    JobManager jobManager;
+    @Inject JobManager jobManager;
 
-    @Inject
-    SearchController searchController;
+    @Inject SearchController searchController;
 
-   static private BaseDrawerActivity parentActivity;
-    public MainFragment() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
-    public static Fragment newInstance() {
-        return new MainFragment();
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyApplication.get(getActivity()).getAppComponent().inject(this);
     }
+    public void onEventMainThread(SearchSuggestionItemResultEvent event){
+        mSearchView.swapSuggestions(event.getList());
+        mSearchView.hideProgress();
+    }
+
+    static private BaseDrawerActivity parentActivity;
+
+    public MainFragment() {}
+
+    public static Fragment newInstance() {return new MainFragment();}
+
 
 
     @Override
@@ -185,10 +197,7 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
-    public void onEventMainThread(SearchSuggestionItemResultEvent event){
-        mSearchView.swapSuggestions(event.getList());
-        mSearchView.hideProgress();
-    }
+
 
 
     public void onEventMainThread(VacancyListEvent vacancyListEvent){
@@ -205,17 +214,7 @@ public class MainFragment extends Fragment {
         jobManager.start();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 
 
 }

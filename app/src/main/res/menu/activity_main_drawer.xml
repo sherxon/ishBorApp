@@ -4,25 +4,25 @@
     <group android:checkableBehavior="single" android:id="@+id/one">
         <item android:id="@+id/nav_search_vacancy"
             android:icon="@drawable/search_24"
-            android:title="Поиск Вакансий"
+            android:title="@string/searchVacancy"
             android:checked="true"
             />
         <item
             android:id="@+id/nav_category"
             android:icon="@drawable/list_24"
-            android:title="Категорий"
+            android:title="@string/category"
             />
         <item android:id="@+id/nav_favourites" android:icon="@drawable/favorite_folder_24"
-            android:title="Избранное" />
+            android:title="@string/favourites" />
     </group>
     <group android:checkableBehavior="single" android:id="@+id/two">
         <item android:id="@+id/nav_profile" android:icon="@drawable/contact_24"
-            android:title="Профиль" />
+            android:title="@string/profile" />
         <item android:id="@+id/nav_login" android:icon="@drawable/loginuser_24"
-            android:title="Логин" />
+            android:title="@string/login" />
     </group>
     <group android:checkableBehavior="single" android:id="@+id/three">
         <item android:id="@+id/nav_send" android:icon="@drawable/about_24"
-            android:title="О приложении" />
+            android:title="@string/about" />
     </group>
 </menu>

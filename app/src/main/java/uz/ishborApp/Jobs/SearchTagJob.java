@@ -2,8 +2,6 @@ package uz.ishborApp.Jobs;
 
 import com.google.gson.reflect.TypeToken;
 import com.path.android.jobqueue.Params;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.lang.reflect.Type;
 import java.util.LinkedList;
@@ -12,6 +10,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
+import okhttp3.Request;
+import okhttp3.Response;
 import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Components.SearchController;

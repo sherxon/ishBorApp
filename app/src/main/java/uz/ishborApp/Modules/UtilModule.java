@@ -1,13 +1,12 @@
 package uz.ishborApp.Modules;
 
 import com.google.gson.Gson;
-import com.path.android.jobqueue.JobManager;
-import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by sherxon on 1/17/16.

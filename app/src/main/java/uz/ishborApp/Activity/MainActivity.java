@@ -65,6 +65,9 @@ public class MainActivity extends BaseDrawerActivity implements FragmentManager.
 
         }
     }
+    public void onEventMainThread(String message){ // when problem occured
+        Snackbar.make(drawer, message, Snackbar.LENGTH_LONG).show();
+    }
     public void onEventMainThread(FavouriteJobEvent event){
         switch (event.getAction()){
             case DELETE: {

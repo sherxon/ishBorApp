@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="latest_vacancies">Последние вакансии</string>
+    <string name="searchVacancy">Поиск Вакансий</string>
+    <string name="category">Категорий</string>
+    <string name="favourites">Избранное</string>
+    <string name="profile">Профиль</string>
+    <string name="login">Логин</string>
+    <string name="about">О приложении</string>
+    <string name="btnApply">Подать заявление</string>
+    <string name="btnlike">Нравится</string>
+    <string name="description">Описание</string>
+    <string name="searchplace">Поиск…</string>
+    <string name="categorybarname">Категорий</string>
+    <string name="loginfirst">Пожалуйста, войдите, чтобы подать заявку на работу</string>
+    <string name="applied">Применяется для работы</string>
+    <string name="liked">Понравилось</string>
+</resources>

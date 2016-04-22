@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivityFragment">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#dbdfe9"
-            android:text="Latest Vacancies"
+            android:text="@string/latest_vacancies"
             android:layout_marginTop="60dp"
             style="@style/TextAppearance.AppCompat.Medium"
             android:paddingLeft="20dp"
@@ -38,7 +38,7 @@
             app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
             app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
             app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-            app:floatingSearch_searchHint="Search..."
+            app:floatingSearch_searchHint="@string/searchplace"
             app:floatingSearch_showSearchKey="false"
             app:floatingSearch_dismissOnOutsideTouch="true"
             app:floatingSearch_leftActionMode="showHamburger"

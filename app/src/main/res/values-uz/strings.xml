@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="latest_vacancies">Songgi ishlar</string>
+    <string name="searchVacancy">Ish izlash</string>
+    <string name="category">Kategoriya</string>
+    <string name="favourites">Yoqtirganlar</string>
+    <string name="profile">Profil</string>
+    <string name="login">Kirish</string>
+    <string name="about">Haqida</string>
+    <string name="btnApply">Ishga topshirish</string>
+    <string name="btnlike">Yoqdi</string>
+    <string name="description">Tarif</string>
+    <string name="searchplace">Izla…</string>
+    <string name="categorybarname">Kategoriya</string>
+    <string name="loginfirst">Iltimos, Ruyhatdan uting </string>
+    <string name="applied">Applied</string>
+    <string name="liked">Yoqdi</string>
+</resources>
