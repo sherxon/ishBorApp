@@ -16,6 +16,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
+import uz.ishborApp.Entity.Applied;
+import uz.ishborApp.Entity.AppliedDao;
 
 
 /**
@@ -25,10 +27,12 @@ public class FileUploadJob extends BaseJob {
 
     private File file;
     private String userId;
-    public FileUploadJob(File file, String userId) {
+    private Long vacancyId;
+    public FileUploadJob(File file, String userId, Long vacancyId) {
         super(new Params(800).requireNetwork().persist());
         this.file=file;
         this.userId=userId;
+        this.vacancyId=vacancyId;
     }
 
     @Override
@@ -39,7 +43,11 @@ public class FileUploadJob extends BaseJob {
 
     @Override
     public void onAdded() {
-
+        AppliedDao.createTable(daoMaster.getDatabase(), true);
+        Applied applied= new Applied();
+        applied.setUserId(userId);
+        applied.setVacancyId(vacancyId);
+        daoMaster.newSession().getAppliedDao().insertOrReplace(applied);
     }
 
     @Override

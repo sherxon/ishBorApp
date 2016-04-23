@@ -1,5 +1,6 @@
 package uz.ishborApp.Fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
-import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.path.android.jobqueue.JobManager;
 
 import java.util.regex.Pattern;
@@ -20,8 +21,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.event.EventBus;
 import uz.ishborApp.Activity.BaseDrawerActivity;
+import uz.ishborApp.Entity.AppliedDao;
 import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.FavouriteJobEvent;
@@ -118,6 +121,13 @@ public class VacancyDesc extends Fragment {
             btnLike.setText(R.string.liked);
             btnLike.setClickable(false);
         }
+        AppliedDao.createTable(daoMaster.getDatabase(), true);
+        AppliedDao appliedDao=daoMaster.newSession().getAppliedDao();
+        QueryBuilder queryBuilder=daoMaster.newSession().getAppliedDao().queryBuilder();
+        if(queryBuilder.where(AppliedDao.Properties.VacancyId.eq(id)).count()>0){
+            btnApply.setText(R.string.applied);
+            btnApply.setClickable(false);
+        }
     }
 
     @OnClick(R.id.btnLike)
@@ -136,17 +146,23 @@ public class VacancyDesc extends Fragment {
     @OnClick(R.id.btnApply)
     public void OnApplied(Button button){
         if(AccessToken.getCurrentAccessToken()!=null){
-            new MaterialFilePicker()
-                    .withActivity(parentActivity)
-                    .withRequestCode(1)
-                    .withFilter(Pattern.compile(".*\\.pdf")) // Filtering files and directories by file name using regexp
-                    .withFilterDirectories(true) // Set directories filterable (false by default)
-                    .start();
-            EventBus.getDefault().post(parentActivity.getString(R.string.applied));
+//            new MaterialFilePicker()
+//                    .withActivity(parentActivity)
+//                    .withRequestCode(1)
+//                    .withFilter(Pattern.compile(".*\\.pdf")) // Filtering files and directories by file name using regexp
+//                    .withFilterDirectories(true) // Set directories filterable (false by default)
+//                    .start();
+
+            Intent intent = new Intent(parentActivity, FilePickerActivity.class);
+            intent.putExtra(FilePickerActivity.ARG_FILE_FILTER, Pattern.compile(".*\\.pdf$"));
+            intent.putExtra(FilePickerActivity.ARG_DIRECTORIES_FILTER, true);
+            intent.putExtra("id", id);
+            parentActivity.startActivityForResult(intent, 1);
         }else{
             EventBus.getDefault().post(parentActivity.getString(R.string.loginfirst));
         }
 
     }
+
 
 }

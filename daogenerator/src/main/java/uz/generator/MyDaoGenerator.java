@@ -30,12 +30,16 @@ public class MyDaoGenerator {
         vacancy.addStringProperty("position");
         vacancy.addStringProperty("descc");
         vacancy.addStringProperty("stDate");
-        vacancy.addStringProperty("html");
 
         Property categoryId=vacancy.addLongProperty("categoryId").notNull().getProperty();
         vacancy.addToOne(category, categoryId);
         category.addToMany(vacancy, categoryId);
 
-        new DaoGenerator().generateAll(schema, "/home/sherxon/androidProjects/ishBorApp/app/src/main/java/uz/ishborApp/Entity");
+        Entity applied=schema.addEntity("Applied");
+        applied.addIdProperty().primaryKey();
+        applied.addStringProperty("userId");
+        applied.addLongProperty("vacancyId");
+
+        new DaoGenerator().generateAll(schema, "/home/sherxon/Downloads/ishBorApp/app/src/main/java/");
     }
 }

@@ -64,10 +64,14 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Long vacancyId=data.getLongExtra("id", 0);
         if (requestCode == 1 && resultCode == RESULT_OK && AccessToken.getCurrentAccessToken()!=null) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             File file= new File(filePath);
-            jobManager.addJob(new FileUploadJob(file, AccessToken.getCurrentAccessToken().getUserId()));
+            jobManager.addJob(new FileUploadJob(file,
+                    AccessToken.getCurrentAccessToken().getUserId(),
+                    vacancyId
+                    ));
         }
     }
 

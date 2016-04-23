@@ -5,28 +5,28 @@ package uz.ishborApp.Entity;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 /**
- * Entity mapped to table "SEARCH".
+ * Entity mapped to table "APPLIED".
  */
-public class Search{
+public class Applied {
 
     private Long id;
-    private String word;
-    private java.util.Date created;
+    private String userId;
+    private Long vacancyId;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Search() {
+    public Applied() {
     }
 
-    public Search(Long id) {
+    public Applied(Long id) {
         this.id = id;
     }
 
-    public Search(Long id, String word, java.util.Date created) {
+    public Applied(Long id, String userId, Long vacancyId) {
         this.id = id;
-        this.word = word;
-        this.created = created;
+        this.userId = userId;
+        this.vacancyId = vacancyId;
     }
 
     public Long getId() {
@@ -37,20 +37,20 @@ public class Search{
         this.id = id;
     }
 
-    public String getWord() {
-        return word;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public java.util.Date getCreated() {
-        return created;
+    public Long getVacancyId() {
+        return vacancyId;
     }
 
-    public void setCreated(java.util.Date created) {
-        this.created = created;
+    public void setVacancyId(Long vacancyId) {
+        this.vacancyId = vacancyId;
     }
 
     // KEEP METHODS - put your custom methods here
