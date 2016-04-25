@@ -70,6 +70,7 @@ public class MainFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

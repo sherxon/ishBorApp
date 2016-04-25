@@ -39,6 +39,9 @@ public class MyDaoGenerator {
         applied.addIdProperty().primaryKey();
         applied.addStringProperty("userId");
         applied.addLongProperty("vacancyId");
+        applied.addStringProperty("vacancyName");
+        applied.addStringProperty("categoryName");
+        applied.addStringProperty("dateName");
 
         new DaoGenerator().generateAll(schema, "/home/sherxon/Downloads/ishBorApp/app/src/main/java/");
     }

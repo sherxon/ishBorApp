@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.path.android.jobqueue.JobManager;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -28,6 +30,8 @@ import uz.ishborApp.Entity.AppliedDao;
 import uz.ishborApp.Entity.DaoMaster;
 import uz.ishborApp.Entity.Vacancy;
 import uz.ishborApp.Events.FavouriteJobEvent;
+import uz.ishborApp.Events.UploadEvent;
+import uz.ishborApp.Jobs.FileUploadJob;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
@@ -77,13 +81,35 @@ public class VacancyDesc extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
     public VacancyDesc() {
         // Required empty public constructor
     }
 
-
+    public void onEventMainThread(UploadEvent uploadEvent){ // when problem occured
+        Toast.makeText(parentActivity, uploadEvent.getMessasge(), Toast.LENGTH_LONG).show();
+        btnApply.setText(R.string.applied);
+        btnApply.setClickable(false);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             id = getArguments().getLong("id");
@@ -156,13 +182,25 @@ public class VacancyDesc extends Fragment {
             Intent intent = new Intent(parentActivity, FilePickerActivity.class);
             intent.putExtra(FilePickerActivity.ARG_FILE_FILTER, Pattern.compile(".*\\.pdf$"));
             intent.putExtra(FilePickerActivity.ARG_DIRECTORIES_FILTER, true);
-            intent.putExtra("id", id);
-            parentActivity.startActivityForResult(intent, 1);
+            startActivityForResult(intent, 1);
         }else{
             EventBus.getDefault().post(parentActivity.getString(R.string.loginfirst));
         }
-
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 &&  AccessToken.getCurrentAccessToken()!=null) {
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            File file= new File(filePath);
+            jobManager.addJob(new FileUploadJob(file,
+                    AccessToken.getCurrentAccessToken().getUserId(),
+                    id,
+                    position,
+                    company
+            ));
 
+        }
+    }
 }

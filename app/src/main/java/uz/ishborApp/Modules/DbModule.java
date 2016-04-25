@@ -26,7 +26,9 @@ public class DbModule {
     @Provides
     @Singleton
     DaoMaster provideDaoMaster(SQLiteOpenHelper db){
-        return new DaoMaster(db.getWritableDatabase());
+        DaoMaster daoMaster= new DaoMaster(db.getWritableDatabase());
+        DaoMaster.createAllTables(db.getWritableDatabase(), true);
+        return daoMaster;
     }
     @Provides @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context){

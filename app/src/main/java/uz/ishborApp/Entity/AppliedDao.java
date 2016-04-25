@@ -24,6 +24,9 @@ public class AppliedDao extends AbstractDao<Applied, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UserId = new Property(1, String.class, "userId", false, "USER_ID");
         public final static Property VacancyId = new Property(2, Long.class, "vacancyId", false, "VACANCY_ID");
+        public final static Property VacancyName = new Property(3, String.class, "vacancyName", false, "VACANCY_NAME");
+        public final static Property CategoryName = new Property(4, String.class, "categoryName", false, "CATEGORY_NAME");
+        public final static Property DateName = new Property(5, String.class, "dateName", false, "DATE_NAME");
     };
 
 
@@ -41,7 +44,10 @@ public class AppliedDao extends AbstractDao<Applied, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"APPLIED\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"USER_ID\" TEXT," + // 1: userId
-                "\"VACANCY_ID\" INTEGER);"); // 2: vacancyId
+                "\"VACANCY_ID\" INTEGER," + // 2: vacancyId
+                "\"VACANCY_NAME\" TEXT," + // 3: vacancyName
+                "\"CATEGORY_NAME\" TEXT," + // 4: categoryName
+                "\"DATE_NAME\" TEXT);"); // 5: dateName
     }
 
     /** Drops the underlying database table. */
@@ -69,6 +75,21 @@ public class AppliedDao extends AbstractDao<Applied, Long> {
         if (vacancyId != null) {
             stmt.bindLong(3, vacancyId);
         }
+ 
+        String vacancyName = entity.getVacancyName();
+        if (vacancyName != null) {
+            stmt.bindString(4, vacancyName);
+        }
+ 
+        String categoryName = entity.getCategoryName();
+        if (categoryName != null) {
+            stmt.bindString(5, categoryName);
+        }
+ 
+        String dateName = entity.getDateName();
+        if (dateName != null) {
+            stmt.bindString(6, dateName);
+        }
     }
 
     /** @inheritdoc */
@@ -83,7 +104,10 @@ public class AppliedDao extends AbstractDao<Applied, Long> {
         Applied entity = new Applied( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // userId
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2) // vacancyId
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // vacancyId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // vacancyName
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // categoryName
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // dateName
         );
         return entity;
     }
@@ -94,6 +118,9 @@ public class AppliedDao extends AbstractDao<Applied, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setVacancyId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setVacancyName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setCategoryName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDateName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     /** @inheritdoc */

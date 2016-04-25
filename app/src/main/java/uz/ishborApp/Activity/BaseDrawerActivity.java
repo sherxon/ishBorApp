@@ -1,6 +1,5 @@
 package uz.ishborApp.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -14,13 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.path.android.jobqueue.JobManager;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -30,8 +25,8 @@ import uz.ishborApp.Fragments.AboutFragment;
 import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.LoginFragment;
 import uz.ishborApp.Fragments.MainFragment;
+import uz.ishborApp.Fragments.ProfileFragment;
 import uz.ishborApp.Fragments.VacancyListFragment;
-import uz.ishborApp.Jobs.FileUploadJob;
 import uz.ishborApp.MyApplication;
 import uz.ishborApp.R;
 
@@ -61,19 +56,6 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Long vacancyId=data.getLongExtra("id", 0);
-        if (requestCode == 1 && resultCode == RESULT_OK && AccessToken.getCurrentAccessToken()!=null) {
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            File file= new File(filePath);
-            jobManager.addJob(new FileUploadJob(file,
-                    AccessToken.getCurrentAccessToken().getUserId(),
-                    vacancyId
-                    ));
-        }
-    }
 
     protected void onCreateDrawer() {
         setSupportActionBar(toolbar);
@@ -128,6 +110,8 @@ public  class BaseDrawerActivity extends AppCompatActivity implements Navigation
             fragment=VacancyListFragment.newInstance(Globals.FAVOURITES, 0l);
         } else if(id==R.id.nav_send){
             fragment= AboutFragment.newInstance();
+        } else if(id==R.id.nav_profile){
+            fragment= ProfileFragment.newInstance();
         }
 
         if(fragment!=null){

@@ -12,6 +12,9 @@ public class Applied {
     private Long id;
     private String userId;
     private Long vacancyId;
+    private String vacancyName;
+    private String categoryName;
+    private String dateName;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -23,10 +26,13 @@ public class Applied {
         this.id = id;
     }
 
-    public Applied(Long id, String userId, Long vacancyId) {
+    public Applied(Long id, String userId, Long vacancyId, String vacancyName, String categoryName, String dateName) {
         this.id = id;
         this.userId = userId;
         this.vacancyId = vacancyId;
+        this.vacancyName = vacancyName;
+        this.categoryName = categoryName;
+        this.dateName = dateName;
     }
 
     public Long getId() {
@@ -51,6 +57,30 @@ public class Applied {
 
     public void setVacancyId(Long vacancyId) {
         this.vacancyId = vacancyId;
+    }
+
+    public String getVacancyName() {
+        return vacancyName;
+    }
+
+    public void setVacancyName(String vacancyName) {
+        this.vacancyName = vacancyName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDateName() {
+        return dateName;
+    }
+
+    public void setDateName(String dateName) {
+        this.dateName = dateName;
     }
 
     // KEEP METHODS - put your custom methods here

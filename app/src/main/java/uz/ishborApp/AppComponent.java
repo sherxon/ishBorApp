@@ -10,6 +10,7 @@ import uz.ishborApp.Activity.BaseDrawerActivity;
 import uz.ishborApp.Activity.MainActivity;
 import uz.ishborApp.Fragments.CategoryFragment;
 import uz.ishborApp.Fragments.MainFragment;
+import uz.ishborApp.Fragments.ProfileFragment;
 import uz.ishborApp.Fragments.VacancyDesc;
 import uz.ishborApp.Fragments.VacancyListFragment;
 import uz.ishborApp.Jobs.CategoryListJob;
@@ -66,4 +67,7 @@ public interface AppComponent {
     void inject(VacancyListFragment vacancyListFragment);
 
     void inject(FileUploadJob fileUploadJob);
+
+    void inject(ProfileFragment profileFragment);
+
 }

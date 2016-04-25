@@ -1,10 +1,14 @@
 package uz.ishborApp.Jobs;
 
+import android.os.Handler;
+
 import com.google.gson.reflect.TypeToken;
 import com.path.android.jobqueue.Params;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
@@ -18,6 +22,7 @@ import uz.ishborApp.AppComponent;
 import uz.ishborApp.Components.Globals;
 import uz.ishborApp.Entity.Applied;
 import uz.ishborApp.Entity.AppliedDao;
+import uz.ishborApp.Events.UploadEvent;
 
 
 /**
@@ -28,11 +33,15 @@ public class FileUploadJob extends BaseJob {
     private File file;
     private String userId;
     private Long vacancyId;
-    public FileUploadJob(File file, String userId, Long vacancyId) {
+    private String vacancyName;
+    private String categoryName;
+    public FileUploadJob(File file, String userId, Long vacancyId, String vacancyName, String categoryName) {
         super(new Params(800).requireNetwork().persist());
         this.file=file;
         this.userId=userId;
         this.vacancyId=vacancyId;
+        this.vacancyName=vacancyName;
+        this.categoryName=categoryName;
     }
 
     @Override
@@ -43,10 +52,21 @@ public class FileUploadJob extends BaseJob {
 
     @Override
     public void onAdded() {
+        Handler handler= new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new UploadEvent("Upload Success!"));
+            }
+        }, 1000);
+
         AppliedDao.createTable(daoMaster.getDatabase(), true);
         Applied applied= new Applied();
         applied.setUserId(userId);
         applied.setVacancyId(vacancyId);
+        applied.setVacancyName(vacancyName);
+        applied.setCategoryName(categoryName);
+        applied.setDateName(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
         daoMaster.newSession().getAppliedDao().insertOrReplace(applied);
     }
 
@@ -69,7 +89,7 @@ public class FileUploadJob extends BaseJob {
 
         Type type= new TypeToken<Map<String, String>>(){}.getType();
         Map<String, String> result=gson.fromJson(response.body().string(), type);
-
+        response.body().close();
         if("ok".equals(result.get("status"))){
                String filename=result.get("filename");
                 RequestBody requestBody1= new FormBody.Builder()

@@ -7,7 +7,7 @@ package uz.ishborApp.Entity;
 /**
  * Entity mapped to table "SEARCH".
  */
-public class Search{
+public class Search {
 
     private Long id;
     private String word;

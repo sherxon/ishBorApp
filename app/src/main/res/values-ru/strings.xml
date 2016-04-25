@@ -13,6 +13,6 @@
     <string name="searchplace">Поиск…</string>
     <string name="categorybarname">Категорий</string>
     <string name="loginfirst">Пожалуйста, войдите, чтобы подать заявку на работу</string>
-    <string name="applied">Применяется для работы</string>
+    <string name="applied">Резюме отправлено</string>
     <string name="liked">Понравилось</string>
 </resources>
